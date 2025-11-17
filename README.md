@@ -1,1 +1,1 @@
-# Capstone-Project---World-simulation
+# World Simulation Capstone Project
