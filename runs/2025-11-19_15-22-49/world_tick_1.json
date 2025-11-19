@@ -1,0 +1,38 @@
+{
+  "Resources": {
+    "food": 16537.5,
+    "coinage": 5126.9405775000005,
+    "manpower": 24750.0,
+    "timber": 10000
+  },
+  "Society": {
+    "population": 500000,
+    "morale": 0.7999999999999999,
+    "inequality": 0.76,
+    "religious_influence": 0.88,
+    "urbanization": 0.25
+  },
+  "Economy": {
+    "tax_rate": 0.1,
+    "trade_intensity": 0.43500000000000005
+  },
+  "State": {
+    "stability": 0.5199999999999999,
+    "legitimacy": 0.46,
+    "borders_threat": 0.4,
+    "corruption": 0.4,
+    "laws": [
+      "Feudal Contracts",
+      "Church Tithes",
+      "Royal Decree"
+    ]
+  },
+  "Environment": {
+    "harvest_quality": 0.7,
+    "plague_pressure": 0.2,
+    "winter_severity": 0.3
+  },
+  "Infrastructure": {
+    "roads_quality": 0.35500000000000004
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "Resources": {
+    "food": 15000.490000000003,
+    "coinage": 800.04,
+    "manpower": 7999.964999999999,
+    "timber": 4999.96
+  },
+  "Society": {
+    "population": 40000,
+    "morale": 1.0,
+    "inequality": 0.6299999999999999,
+    "religious_influence": 1.0,
+    "urbanization": 0.25
+  },
+  "Economy": {
+    "tax_rate": 0.11,
+    "trade_intensity": 0.7999999999999998
+  },
+  "State": {
+    "stability": 0.6399999999999999,
+    "legitimacy": 0.9300000000000002,
+    "laws": [
+      "Inheritance Laws",
+      "Land Tenure",
+      "Fealty Oaths"
+    ]
+  },
+  "Environment": {
+    "harvest_quality": 0.8999999999999999,
+    "plague_pressure": 0.2,
+    "winter_severity": 0.7
+  },
+  "Infrastructure": {
+    "roads_quality": 0.32999999999999996
+  }
+}

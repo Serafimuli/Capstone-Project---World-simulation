@@ -1,0 +1,93 @@
+{
+  "type": "object",
+  "properties": {
+    "year_estimate": { "type": "integer" },
+    "region_guess": { "type": "string" },
+    "context_summary": { "type": "string" },
+    "world_state_initial": {
+      "type": "object",
+      "properties": {
+        "Resources": {
+          "type": "object",
+          "properties": {
+            "food": { "type": "number" },
+            "coinage": { "type": "number" },
+            "timber": { "type": "number" },
+            "iron": { "type": "number" },
+            "manpower": { "type": "number" }
+          },
+          "required": ["food", "coinage", "manpower"]
+        },
+        "Society": {
+          "type": "object",
+          "properties": {
+            "population": { "type": "integer" },
+            "morale": { "type": "number" },
+            "inequality": { "type": "number" },
+            "religious_influence": { "type": "number" },
+            "urbanization": { "type": "number" },
+            "education": { "type": "number" }
+          },
+          "required": ["population", "morale"]
+        },
+        "Economy": {
+          "type": "object",
+          "properties": {
+            "tax_rate": { "type": "number" },
+            "rents_rate": { "type": "number" },
+            "tithe_rate": { "type": "number" },
+            "trade_intensity": { "type": "number" },
+            "price_level": { "type": "number" },
+            "productivity": { "type": "number" }
+          }
+        },
+        "State": {
+          "type": "object",
+          "properties": {
+            "laws": { "type": "array", "items": { "type": "string" } },
+            "legitimacy": { "type": "number" },
+            "stability": { "type": "number" },
+            "borders_threat": { "type": "number" },
+            "corruption": { "type": "number" }
+          },
+          "required": ["stability", "legitimacy"]
+        },
+        "Infrastructure": {
+          "type": "object",
+          "properties": {
+            "roads_quality": { "type": "number" },
+            "granaries_capacity": { "type": "number" },
+            "fortifications": { "type": "number" },
+            "market_access": { "type": "number" }
+          }
+        },
+        "Environment": {
+          "type": "object",
+          "properties": {
+            "harvest_quality": { "type": "number" },
+            "plague_pressure": { "type": "number" },
+            "winter_severity": { "type": "number" },
+            "disaster_risk": { "type": "number" }
+          }
+        }
+      },
+      "required": ["Resources", "Society", "Economy", "State", "Environment"]
+    },
+    "role_specs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role_name": { "type": "string" },
+          "mandate": { "type": "string" },
+          "incentives": { "type": "string" },
+          "observables": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "string" }
+        },
+        "required": ["role_name", "mandate"]
+      },
+      "minItems": 3
+    }
+  },
+  "required": ["context_summary", "world_state_initial", "role_specs"]
+}

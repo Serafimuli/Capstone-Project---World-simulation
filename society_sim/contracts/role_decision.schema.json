@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "role_name": { "type": "string" },
+    "action_name": { "type": "string" },
+    "goal": { "type": "string" },
+    "operational_plan": { "type": "string" },
+    "expected_effects": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "risk_notes": { "type": "string" },
+    "justification": { "type": "string" }
+  },
+  "required": ["role_name", "action_name", "expected_effects", "justification"]
+}

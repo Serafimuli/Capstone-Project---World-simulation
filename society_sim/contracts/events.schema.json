@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "probability": { "type": "number", "minimum": 0, "maximum": 1 },
+          "drivers": { "type": "array", "items": { "type": "string" } },
+          "expected_effects": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        },
+        "required": ["type", "probability"]
+      }
+    }
+  },
+  "required": ["events"]
+}

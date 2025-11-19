@@ -1,0 +1,48 @@
+{
+  "Resources": {
+    "food": 27707.40452179131,
+    "coinage": 2264.5971417191795,
+    "manpower": 81600.0,
+    "iron": 499.99,
+    "timber": 999.98
+  },
+  "Society": {
+    "population": 1999999.99,
+    "morale": 1.0,
+    "education": 0.1,
+    "inequality": 0.69,
+    "religious_influence": 1.0,
+    "urbanization": 0.22000000000000003
+  },
+  "Economy": {
+    "price_level": 1.0,
+    "productivity": 0.42000000000000004,
+    "rents_rate": 0.33000000000000007,
+    "tax_rate": 0.15,
+    "tithe_rate": 0.11,
+    "trade_intensity": 0.9
+  },
+  "State": {
+    "stability": 1.0,
+    "legitimacy": 0.7,
+    "borders_threat": 0.3,
+    "corruption": 0.4,
+    "laws": [
+      "Feudalism",
+      "Dreptul Divin",
+      "Obligații vasalice"
+    ]
+  },
+  "Environment": {
+    "disaster_risk": 0.2,
+    "harvest_quality": 0.6799999999999999,
+    "plague_pressure": 0.3,
+    "winter_severity": 0.4
+  },
+  "Infrastructure": {
+    "fortifications": 0.4426800000000001,
+    "granaries_capacity": 5000,
+    "market_access": 0.3,
+    "roads_quality": 0.55
+  }
+}
