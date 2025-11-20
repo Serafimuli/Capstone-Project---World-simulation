@@ -95,20 +95,9 @@ def run(user_prompt: str, ticks: int = 12, guardrails: Dict[str, Any] | None = N
     analysis = llm_adapter.analyze(analysis_payload)
     LIO.write_json(run_dir / "analysis.json", analysis)
 
-    try:
-        print("\n[Analysis] key conclusions:")
-        for c in analysis.get("conclusions", [])[:5]:
-            print(" -", c)
-        print("\n[Analysis] recommendxations:")
-        for r in analysis.get("recommendations", [])[:5]:
-            print(" -", r)
-    except Exception:
-        pass
-
     return run_dir
 
 
 
 if __name__ == "__main__":
-    # Example run (will raise NotImplementedError until you integrate LLM):
     run("Simulate a modern and prosperous world that will exist in 1000 years", ticks=2)

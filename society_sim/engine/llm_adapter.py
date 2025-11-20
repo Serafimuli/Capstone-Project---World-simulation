@@ -1,22 +1,5 @@
-"""
-Integrare Gemini (google-generativeai / Vertex AI) cu Structured Output.
-
-Selectare provider prin env:
-  - GEMINI_PROVIDER=google  (default; folosește pachetul `google-generativeai`)
-  - GEMINI_PROVIDER=vertex  (folosește Vertex AI: `google-cloud-aiplatform`)
-
-Necesită:
-  - pentru google:  pip install google-generativeai
-    env: GEMINI_API_KEY=...
-  - pentru vertex:  pip install google-cloud-aiplatform
-    env: GOOGLE_CLOUD_PROJECT=..., GOOGLE_CLOUD_LOCATION=us-central1 (sau altă regiune)
-         opțional: GEMINI_MODEL=gemini-1.5-pro
-
-Validare JSON (opțional):
-  - pip install jsonschema
-"""
-
 from __future__ import annotations
+import asyncio
 import json
 import os
 import re
@@ -24,9 +7,8 @@ import time
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-# === Optional JSON schema validation ===
 try:
-    import jsonschema  # type: ignore
+    import jsonschema  
 except Exception:
     jsonschema = None
 
@@ -38,10 +20,15 @@ try:
 except Exception:
     pass
 
+## ADK imports
+from google.adk.agents.llm_agent import LlmAgent as Agent
+from google.adk.runners import InMemoryRunner
+from google.genai.types import Content, Part  # tipuri de mesaje (user/model)
+
 PROMPTS_DIR = Path(__file__).resolve().parent.parent / "prompts"
 CONTRACTS_DIR = Path(__file__).resolve().parent.parent / "contracts"
 
-# --------- Helpers: IO + templating ----------
+## Helpers: IO + templating
 
 def _load_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
@@ -58,11 +45,18 @@ def _fill(template: str, mapping: Dict[str, Any]) -> str:
         out = out.replace(f"{{{{{k}}}}}", v if isinstance(v, str) else json.dumps(v, ensure_ascii=False))
     return out
 
-def _open_object_to_kv_array(node: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Transformă un obiect cu chei dinamice (object + additionalProperties)
-    într-o reprezentare compatibilă cu google: array de {key, value}.
-    """
+def _strip_code_fences(s: str) -> str:
+    s = s.strip()
+    fenced = re.match(r"^```(?:json)?\s*(.+?)\s*```$", s, flags=re.S)
+    return fenced.group(1).strip() if fenced else s
+
+def _json_from_text(s: str) -> Dict[str, Any]:
+    s = _strip_code_fences(s)
+    return json.loads(s)
+
+
+def _open_object_to_kv_array(_node: Dict[str, Any]) -> Dict[str, Any]:
+    """Transforms an object with free keys into a list of {key,value} (ADK/genai compatible)."""
     return {
         "type": "array",
         "items": {
@@ -75,30 +69,12 @@ def _open_object_to_kv_array(node: Dict[str, Any]) -> Dict[str, Any]:
         }
     }
 
-def _strip_code_fences(s: str) -> str:
-    # acceptă ```json ... ``` sau ``` ... ```
-    s = s.strip()
-    fenced = re.match(r"^```(?:json)?\s*(.+?)\s*```$", s, flags=re.S)
-    return fenced.group(1).strip() if fenced else s
-
-def _json_from_text(s: str) -> Dict[str, Any]:
-    s = _strip_code_fences(s)
-    return json.loads(s)
-
 def _kv_array_to_dict(val: Any) -> Any:
-    """
-    Dacă val e un array de {key, value}, îl convertim în dict.
-    Altfel, returnăm val neschimbat.
-    """
     if isinstance(val, list) and all(isinstance(it, dict) and "key" in it and "value" in it for it in val):
         return {str(it["key"]): it["value"] for it in val}
     return val
 
 def _normalize_open_objects(obj: Any) -> Any:
-    """
-    Parcurge recursiv răspunsul și transformă eventualele câmpuri care au venit
-    ca array de kv înapoi în dict (ex.: expected_effects).
-    """
     if isinstance(obj, dict):
         return {k: _normalize_open_objects(_kv_array_to_dict(v)) for k, v in obj.items()}
     if isinstance(obj, list):
@@ -110,45 +86,12 @@ def _validate(obj: Dict[str, Any], schema: Optional[Dict[str, Any]]) -> None:
         return
     jsonschema.validate(instance=obj, schema=schema)
 
-# --------- Provider selection ----------
 
-_PROVIDER = os.getenv("GEMINI_PROVIDER", "google").strip().lower()  # 'google' | 'vertex'
-_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash").strip()
-
-# --- google-generativeai (client-side) ---
-_google_model = None
-def _ensure_google_model() -> Any:
-    global _google_model
-    if _google_model is not None:
-        return _google_model
-    import google.generativeai as genai  # type: ignore
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise RuntimeError("GEMINI_API_KEY is missing for provider=google.")
-    genai.configure(api_key=api_key)
-    _google_model = genai.GenerativeModel(_MODEL)
-    return _google_model
-
-def _call_google(prompt: str, schema: Optional[Dict[str, Any]]) -> Dict[str, Any]:
-    model = _ensure_google_model()
-    generation_config = {"response_mime_type": "application/json"}
-    if schema:
-        generation_config["response_schema"] = schema
-    # retry simplu
-    for i in range(4):
-        try:
-            resp = model.generate_content(
-                prompt,
-                generation_config=generation_config,
-            )
-            # `resp.text` ar trebui să fie JSON valid (datorită schema+mimetype)
-            return _json_from_text(resp.text)
-        except Exception as e:
-            if i == 3:
-                raise
-            time.sleep(0.8 * (2 ** i))
-
-def _sanitize_schema_for_google(schema: Dict[str, Any]) -> Dict[str, Any]:
+def _sanitize_schema_for_adk(schema: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    ADK uses under the hood a schema representation similar to genai,
+    which does NOT accept all of JSON Schema. We clean and transform "additionalProperties".
+    """
     if not isinstance(schema, dict):
         return schema
 
@@ -163,12 +106,8 @@ def _sanitize_schema_for_google(schema: Dict[str, Any]) -> Dict[str, Any]:
 
     def _walk(node: Any) -> Any:
         if isinstance(node, dict):
-            # special: object cu additionalProperties => kv array
             if node.get("type") == "object" and "additionalProperties" in node:
-                # Păstrăm doar tipul valorilor (de regulă string) dacă există
-                # dar pentru google revenim la value:string (generic)
                 return _open_object_to_kv_array(node)
-
             out = {}
             for k, v in node.items():
                 if k in DROP_KEYS:
@@ -182,108 +121,112 @@ def _sanitize_schema_for_google(schema: Dict[str, Any]) -> Dict[str, Any]:
                 elif k == "enum" and isinstance(v, list):
                     out[k] = v
                 elif k == "additionalProperties":
-                    # eliminăm, a fost tratat mai sus (kv-array)
-                    continue
+                    continue  # already handled above
                 else:
                     out[k] = _walk(v)
             return out
-        elif isinstance(node, list):
+        if isinstance(node, list):
             return [_walk(x) for x in node]
-        else:
-            return node
+        return node
 
     return _walk(schema)
 
 
+_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash").strip()
 
-# --- Vertex AI (server-side) ---
-_vertex_model = None
-def _ensure_vertex_model() -> Any:
-    global _vertex_model
-    if _vertex_model is not None:
-        return _vertex_model
-    from vertexai import init  # type: ignore
-    from vertexai.generative_models import GenerativeModel  # type: ignore
+_AGENT = Agent(
+    model=_MODEL,
+    name="society_root",
+    description="Simulation JSON agent",
+    instruction=(
+        "You are a structured-output agent for a simulated world. "
+        "ALWAYS return valid JSON that matches the provided schema. "
+        "Do not add commentary."
+    ),
+    # tools=[...], 
+)
 
-    project = os.getenv("GOOGLE_CLOUD_PROJECT")
-    location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
-    if not project:
-        raise RuntimeError("GOOGLE_CLOUD_PROJECT is missing for provider=vertex.")
-    init(project=project, location=location)
-    _vertex_model = GenerativeModel(_MODEL)
-    return _vertex_model
+_RUNNER = InMemoryRunner(agent=_AGENT, app_name="society-sim")
 
-def _call_vertex(prompt: str, schema: Optional[Dict[str, Any]]) -> Dict[str, Any]:
-    model = _ensure_vertex_model()
-    generation_config = {"response_mime_type": "application/json"}
-    if schema:
-        generation_config["response_schema"] = schema
-    for i in range(4):
-        try:
-            resp = model.generate_content(
-                [prompt],
-                generation_config=generation_config,
-            )
-            # Vertex AI: content may be in resp.text or in candidates; handle both
-            text = getattr(resp, "text", None)
-            if not text and hasattr(resp, "candidates") and resp.candidates:
-                # Best-effort: extract text from the first candidate
-                parts = getattr(resp.candidates[0].content, "parts", [])
-                text = "".join(getattr(p, "text", "") for p in parts if getattr(p, "text", ""))
-            if not text:
-                raise RuntimeError("Empty response from Vertex AI.")
-            return _json_from_text(text)
-        except Exception:
-            if i == 3:
-                raise
-            time.sleep(0.8 * (2 ** i))
+_SESSION_ID: Optional[str] = None
 
-def analyze(payload: Dict[str, Any]) -> Dict[str, Any]:
-    tpl = _load_text(PROMPTS_DIR / "analysis.txt")
-    prompt = _fill(tpl, payload)
-    return _call_llm(prompt, schema_file="analysis.schema.json")
+async def _get_session_id() -> str:
+    global _SESSION_ID
+    if _SESSION_ID is None:
+        s = await _RUNNER.session_service.create_session(
+            app_name="society-sim",
+            user_id="society-sim-user",
+        )
+        _SESSION_ID = s.id
+    return _SESSION_ID
 
-# --------- Single entrypoint ----------
+def _augment_prompt_with_schema(prompt: str, schema_send: Optional[Dict[str, Any]]) -> str:
+    if not schema_send:
+        return prompt
+    schema_txt = json.dumps(schema_send, ensure_ascii=False)
+    addition = (
+        "\n\nSTRICT OUTPUT CONSTRAINTS:\n"
+        "Return ONLY valid JSON matching EXACTLY this schema (subset of JSON Schema):\n"
+        "```json\n" + schema_txt + "\n```\n"
+        "Do not add any commentary or Markdown outside the JSON object."
+    )
+    return prompt + addition
 
-def _call_llm(prompt: str, schema_file: Optional[str] = None) -> Dict[str, Any]:
-    # 1) încarcă schema originală (JSON Schema completă din contracts/)
+
+async def _adk_call_async(prompt: str, schema_send: Optional[Dict[str, Any]]) -> str:
+    prompt = _augment_prompt_with_schema(prompt, schema_send)
+
+    msg = Content(role="user", parts=[Part(text=prompt)])
+    final_text = ""
+
+    session_id = await _get_session_id()
+
+    async for event in _RUNNER.run_async(
+        session_id=session_id,
+        user_id="society-sim-user",
+        new_message=msg,
+    ):
+        if event.content and event.content.parts:
+            final_text = "".join(getattr(p, "text", "") or "" for p in event.content.parts)
+    return final_text
+
+
+def _call_adk(prompt: str, schema_file: Optional[str] = None) -> Dict[str, Any]:
     schema_orig = _load_schema(schema_file)
+    schema_send = _sanitize_schema_for_adk(schema_orig) if schema_orig else None
 
-    # 2) pregătește schema pentru provider (sanitizată pt. google)
-    if _PROVIDER == "vertex":
-        schema_send = schema_orig
-        obj = _call_vertex(prompt, schema_send)
-    else:
-        schema_send = _sanitize_schema_for_google(schema_orig) if schema_orig else None
-        obj = _call_google(prompt, schema_send)
+    text = asyncio.run(_adk_call_async(prompt, schema_send))
 
-    # 3) normalizează formele „array de {key,value}” -> dict (map)
+    try:
+        obj = _json_from_text(text)
+    except Exception:
+        m = re.search(r"\{.*\}", text, flags=re.S)
+        obj = json.loads(m.group(0)) if m else {}
+
     obj = _normalize_open_objects(obj)
-
-    # 4) validează LOCAL cu schema ORIGINALĂ (care permite object cu additionalProperties)
     _validate(obj, schema_orig)
-
     return obj
 
 
-
-# --------- Public API used by simulator ----------
-
 def bootstrap(user_prompt: str) -> Dict[str, Any]:
     """
-    Folosește prompts/bootstrap.txt + contracts/bootstrap.schema.json.
-    Returnează:
-      { year_estimate, region_guess, context_summary,
-        world_state_initial:{...}, role_specs:[...] }
+    Generates the initial world state and role specifications for the simulation.
+    Uses prompts/bootstrap.txt and validates output against contracts/bootstrap.schema.json.
+
+    Args:
+        user_prompt (str): The initial prompt describing the simulation scenario.
+
+    Returns:
+        Dict[str, Any]: Dictionary containing year_estimate, region_guess, context_summary,
+                        world_state_initial, and role_specs.
     """
     tpl = _load_text(PROMPTS_DIR / "bootstrap.txt")
     prompt = _fill(tpl, {"USER_PROMPT": user_prompt})
-    return _call_llm(prompt, schema_file="bootstrap.schema.json")
+    return _call_adk(prompt, schema_file="bootstrap.schema.json")
 
 def role_decision(role_spec: Dict[str, Any], world_summary: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Folosește prompts/role_tick.txt + contracts/role_decision.schema.json.
-    `role_spec` vine din bootstrap (inventat de LLM).
+    Uses prompts/role_tick.txt + contracts/role_decision.schema.json.
     """
     tpl = _load_text(PROMPTS_DIR / "role_tick.txt")
     mapping = {
@@ -294,12 +237,20 @@ def role_decision(role_spec: Dict[str, Any], world_summary: Dict[str, Any]) -> D
         "WORLD_SUMMARY_JSON": world_summary,
     }
     prompt = _fill(tpl, mapping)
-    return _call_llm(prompt, schema_file="role_decision.schema.json")
+    return _call_adk(prompt, schema_file="role_decision.schema.json")
 
 def events(world_summary: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Folosește prompts/events.txt + contracts/events.schema.json.
+    Uses prompts/events.txt + contracts/events.schema.json.
     """
     tpl = _load_text(PROMPTS_DIR / "events.txt")
     prompt = _fill(tpl, {"WORLD_SUMMARY_JSON": world_summary})
-    return _call_llm(prompt, schema_file="events.schema.json")
+    return _call_adk(prompt, schema_file="events.schema.json")
+
+def analyze(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Uses prompts/analysis.txt + contracts/analysis.schema.json.
+    """
+    tpl = _load_text(PROMPTS_DIR / "analysis.txt")
+    prompt = _fill(tpl, payload)
+    return _call_adk(prompt, schema_file="analysis.schema.json")
