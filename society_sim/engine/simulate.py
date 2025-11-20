@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from typing import Any, Dict, List
-from society_sim.engine import llm_adapter, arbitration, interpret_actions as IA, events, logging_io as LIO
+from society_sim.engine import llm_adapter, arbitration, interpret_actions as IA, events, logging_io as LIO, analyst
 
 
 
@@ -91,11 +91,17 @@ def run(user_prompt: str, ticks: int = 12, guardrails: Dict[str, Any] | None = N
     # 3) FINAL
     LIO.write_json(run_dir / "world_final.json", world)
 
-    # optional: print final summary to console (short)
+    analysis_payload = analyst.build_payload(run_dir, ticks)
+    analysis = llm_adapter.analyze(analysis_payload)
+    LIO.write_json(run_dir / "analysis.json", analysis)
+
     try:
-        print("[Final World] Resources:", world.get("Resources"))
-        print("[Final World] Society  :", {k: world["Society"][k] for k in ("population","morale","inequality") if k in world["Society"]})
-        print("[Final World] State    :", {k: world["State"][k] for k in ("stability","legitimacy") if k in world["State"]})
+        print("\n[Analysis] key conclusions:")
+        for c in analysis.get("conclusions", [])[:5]:
+            print(" -", c)
+        print("\n[Analysis] recommendxations:")
+        for r in analysis.get("recommendations", [])[:5]:
+            print(" -", r)
     except Exception:
         pass
 
@@ -105,4 +111,4 @@ def run(user_prompt: str, ticks: int = 12, guardrails: Dict[str, Any] | None = N
 
 if __name__ == "__main__":
     # Example run (will raise NotImplementedError until you integrate LLM):
-    run("Simulate a modern and prosperous world that will exist in 1000 years", ticks=6)
+    run("Simulate a modern and prosperous world that will exist in 1000 years", ticks=2)

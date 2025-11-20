@@ -1,2 +1,52 @@
 .env
-runs
+runs/
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.mypy_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+*.cover
+*.log
+*.sqlite3
+*.db
+*.egg-info/
+dist/
+build/
+*.egg
+*.manifest
+*.spec
+# Jupyter
+*.ipynb_checkpoints
+# VS Code
+.vscode/
+# OS
+Thumbs.db
+.DS_Store
+# Test output
+test-results/
+# Temporary files
+*.tmp
+*.swp
+*.bak
+# Other
+node_modules/
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.h5
+*.parquet
+*.pkl
+*.joblib
+*.npy
+*.npz

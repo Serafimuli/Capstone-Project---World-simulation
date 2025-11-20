@@ -1,19 +1,19 @@
 """
-Gemini integration (google-generativeai / Vertex AI) with Structured Output.
+Integrare Gemini (google-generativeai / Vertex AI) cu Structured Output.
 
-Provider selection via env:
-    - GEMINI_PROVIDER=google  (default; uses `google-generativeai` package)
-    - GEMINI_PROVIDER=vertex  (uses Vertex AI: `google-cloud-aiplatform`)
+Selectare provider prin env:
+  - GEMINI_PROVIDER=google  (default; folosește pachetul `google-generativeai`)
+  - GEMINI_PROVIDER=vertex  (folosește Vertex AI: `google-cloud-aiplatform`)
 
-Requirements:
-    - for google:  pip install google-generativeai
-        env: GEMINI_API_KEY=...
-    - for vertex:  pip install google-cloud-aiplatform
-        env: GOOGLE_CLOUD_PROJECT=..., GOOGLE_CLOUD_LOCATION=us-central1 (or other region)
-                 optional: GEMINI_MODEL=gemini-1.5-pro
+Necesită:
+  - pentru google:  pip install google-generativeai
+    env: GEMINI_API_KEY=...
+  - pentru vertex:  pip install google-cloud-aiplatform
+    env: GOOGLE_CLOUD_PROJECT=..., GOOGLE_CLOUD_LOCATION=us-central1 (sau altă regiune)
+         opțional: GEMINI_MODEL=gemini-1.5-pro
 
-JSON validation (optional):
-    - pip install jsonschema
+Validare JSON (opțional):
+  - pip install jsonschema
 """
 
 from __future__ import annotations
@@ -60,8 +60,8 @@ def _fill(template: str, mapping: Dict[str, Any]) -> str:
 
 def _open_object_to_kv_array(node: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Transforms an object with dynamic keys (object + additionalProperties)
-    into a google-compatible representation: array of {key, value}.
+    Transformă un obiect cu chei dinamice (object + additionalProperties)
+    într-o reprezentare compatibilă cu google: array de {key, value}.
     """
     return {
         "type": "array",
@@ -87,8 +87,8 @@ def _json_from_text(s: str) -> Dict[str, Any]:
 
 def _kv_array_to_dict(val: Any) -> Any:
     """
-    If val is an array of {key, value}, convert it to dict.
-    Otherwise, return val unchanged.
+    Dacă val e un array de {key, value}, îl convertim în dict.
+    Altfel, returnăm val neschimbat.
     """
     if isinstance(val, list) and all(isinstance(it, dict) and "key" in it and "value" in it for it in val):
         return {str(it["key"]): it["value"] for it in val}
@@ -96,8 +96,8 @@ def _kv_array_to_dict(val: Any) -> Any:
 
 def _normalize_open_objects(obj: Any) -> Any:
     """
-    Recursively traverses the response and transforms any fields that came
-    as array of kv back into dict (e.g.: expected_effects).
+    Parcurge recursiv răspunsul și transformă eventualele câmpuri care au venit
+    ca array de kv înapoi în dict (ex.: expected_effects).
     """
     if isinstance(obj, dict):
         return {k: _normalize_open_objects(_kv_array_to_dict(v)) for k, v in obj.items()}
@@ -238,6 +238,11 @@ def _call_vertex(prompt: str, schema: Optional[Dict[str, Any]]) -> Dict[str, Any
                 raise
             time.sleep(0.8 * (2 ** i))
 
+def analyze(payload: Dict[str, Any]) -> Dict[str, Any]:
+    tpl = _load_text(PROMPTS_DIR / "analysis.txt")
+    prompt = _fill(tpl, payload)
+    return _call_llm(prompt, schema_file="analysis.schema.json")
+
 # --------- Single entrypoint ----------
 
 def _call_llm(prompt: str, schema_file: Optional[str] = None) -> Dict[str, Any]:
@@ -266,10 +271,10 @@ def _call_llm(prompt: str, schema_file: Optional[str] = None) -> Dict[str, Any]:
 
 def bootstrap(user_prompt: str) -> Dict[str, Any]:
     """
-    Uses prompts/bootstrap.txt + contracts/bootstrap.schema.json.
-    Returns:
-        { year_estimate, region_guess, context_summary,
-            world_state_initial:{...}, role_specs:[...] }
+    Folosește prompts/bootstrap.txt + contracts/bootstrap.schema.json.
+    Returnează:
+      { year_estimate, region_guess, context_summary,
+        world_state_initial:{...}, role_specs:[...] }
     """
     tpl = _load_text(PROMPTS_DIR / "bootstrap.txt")
     prompt = _fill(tpl, {"USER_PROMPT": user_prompt})
@@ -277,8 +282,8 @@ def bootstrap(user_prompt: str) -> Dict[str, Any]:
 
 def role_decision(role_spec: Dict[str, Any], world_summary: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Uses prompts/role_tick.txt + contracts/role_decision.schema.json.
-    `role_spec` comes from bootstrap (invented by LLM).
+    Folosește prompts/role_tick.txt + contracts/role_decision.schema.json.
+    `role_spec` vine din bootstrap (inventat de LLM).
     """
     tpl = _load_text(PROMPTS_DIR / "role_tick.txt")
     mapping = {
@@ -293,7 +298,7 @@ def role_decision(role_spec: Dict[str, Any], world_summary: Dict[str, Any]) -> D
 
 def events(world_summary: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Uses prompts/events.txt + contracts/events.schema.json.
+    Folosește prompts/events.txt + contracts/events.schema.json.
     """
     tpl = _load_text(PROMPTS_DIR / "events.txt")
     prompt = _fill(tpl, {"WORLD_SUMMARY_JSON": world_summary})

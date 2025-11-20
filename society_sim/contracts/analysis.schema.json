@@ -1,0 +1,84 @@
+{
+  "type": "object",
+  "properties": {
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "resources": {
+          "type": "object",
+          "properties": {
+            "food_delta_abs": { "type": "number" },
+            "food_delta_pct": { "type": "number" },
+            "coinage_delta_abs": { "type": "number" },
+            "coinage_delta_pct": { "type": "number" }
+          },
+          "required": ["food_delta_abs", "food_delta_pct", "coinage_delta_abs", "coinage_delta_pct"]
+        },
+        "society": {
+          "type": "object",
+          "properties": {
+            "morale_initial": { "type": "number" },
+            "morale_final": { "type": "number" },
+            "morale_delta": { "type": "number" },
+            "inequality_initial": { "type": "number" },
+            "inequality_final": { "type": "number" }
+          },
+          "required": ["morale_initial", "morale_final", "morale_delta"]
+        },
+        "state": {
+          "type": "object",
+          "properties": {
+            "stability_initial": { "type": "number" },
+            "stability_final": { "type": "number" },
+            "stability_delta": { "type": "number" },
+            "legitimacy_initial": { "type": "number" },
+            "legitimacy_final": { "type": "number" }
+          },
+          "required": ["stability_initial", "stability_final", "stability_delta"]
+        },
+        "economy": {
+          "type": "object",
+          "properties": {
+            "price_level_initial": { "type": "number" },
+            "price_level_final": { "type": "number" },
+            "price_level_delta": { "type": "number" },
+            "trade_intensity_initial": { "type": "number" },
+            "trade_intensity_final": { "type": "number" },
+            "trade_intensity_delta": { "type": "number" }
+          },
+          "required": ["price_level_initial", "price_level_final", "price_level_delta"]
+        },
+        "volatility": {
+          "type": "object",
+          "properties": {
+            "morale_volatility": { "type": "number" },
+            "price_volatility": { "type": "number" }
+          }
+        },
+        "risk_flags": {
+          "type": "object",
+          "properties": {
+            "famine_risk_high": { "type": "boolean" },
+            "unrest_risk_high": { "type": "boolean" },
+            "invasion_risk_high": { "type": "boolean" }
+          }
+        }
+      },
+      "required": ["resources", "society", "state", "economy"]
+    },
+    "cause_effect_chains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "chain": { "type": "string" },
+          "evidence_ticks": { "type": "array", "items": { "type": "integer" } }
+        },
+        "required": ["chain"]
+      }
+    },
+    "conclusions": { "type": "array", "items": { "type": "string" }, "minItems": 3 },
+    "recommendations": { "type": "array", "items": { "type": "string" }, "minItems": 2 }
+  },
+  "required": ["metrics", "cause_effect_chains", "conclusions", "recommendations"]
+}
