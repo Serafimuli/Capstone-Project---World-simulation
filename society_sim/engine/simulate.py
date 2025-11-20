@@ -1,13 +1,13 @@
 """
 Orchestrator:
-- Bootstrap: LLM decide context, world_state_initial, role_specs[]
-- Pe fiecare tick:
-    1) cere decizie de la fiecare rol (acțiuni inventate)
-    2) PRIORITIZEAZĂ + verifică guardrails (estimare)
-    3) aplică efecte (interpret_actions)
-    4) evenimente: forecast + sampling + aplicare
+- Bootstrap: LLM decides context, world_state_initial, role_specs[]
+- On each tick:
+    1) request decision from each role (invented actions)
+    2) PRIORITIZE + check guardrails (estimate)
+    3) apply effects (interpret_actions)
+    4) events: forecast + sampling + apply
     5) log
-Configurează guardrails în config.yaml (ex: min_stability, min_legitimacy, min_food_stock)
+Configure guardrails in config.yaml (e.g.: min_stability, min_legitimacy, min_food_stock)
 """
 from __future__ import annotations
 import json
@@ -25,7 +25,7 @@ DEFAULT_GUARDRAILS = {
 
 
 def _world_summary(world: Dict[str, Any]) -> Dict[str, Any]:
-    """Poți agrega/rotunji aici dacă vrei un rezumat mai compact."""
+    """You can aggregate/round here if you want a more compact summary."""
     return world
 
 
@@ -40,7 +40,7 @@ def run(user_prompt: str, ticks: int = 12, guardrails: Dict[str, Any] | None = N
     role_specs = boot["role_specs"]
 
     LIO.write_jsonl(hist, {"phase": "bootstrap", "payload": boot})
-    # snapshot inițial
+    # initial snapshot
     LIO.write_json(run_dir / "world_initial.json", world)
 
     # 2) TICKS
@@ -67,15 +67,15 @@ def run(user_prompt: str, ticks: int = 12, guardrails: Dict[str, Any] | None = N
 
         ordered = arbitration.order_actions(filtered)
 
-        # aplică efectele în ordinea arbitrajului
+        # apply effects in arbitration order
         for dec in ordered:
             world = IA.apply_effects(world, dec.get("expected_effects", {}))
 
-        # evenimente
+        # events
         world_after_events, ev_payload, ev_fired = events.forecast_and_apply(world)
         world = world_after_events
 
-        # log + snapshot pe tick
+        # log + snapshot per tick
         LIO.write_jsonl(hist, {
             "phase": "tick",
             "tick": t,
@@ -91,7 +91,7 @@ def run(user_prompt: str, ticks: int = 12, guardrails: Dict[str, Any] | None = N
     # 3) FINAL
     LIO.write_json(run_dir / "world_final.json", world)
 
-    # opțional: printează sumarul final pe consolă (scurt)
+    # optional: print final summary to console (short)
     try:
         print("[Final World] Resources:", world.get("Resources"))
         print("[Final World] Society  :", {k: world["Society"][k] for k in ("population","morale","inequality") if k in world["Society"]})
@@ -104,5 +104,5 @@ def run(user_prompt: str, ticks: int = 12, guardrails: Dict[str, Any] | None = N
 
 
 if __name__ == "__main__":
-    # Exemplu de rulare (va ridica NotImplementedError până integrezi LLM):
-    run("Simulează o lume de acum 1000 de ani", ticks=6)
+    # Example run (will raise NotImplementedError until you integrate LLM):
+    run("Simulate a modern and prosperous world that will exist in 1000 years", ticks=6)

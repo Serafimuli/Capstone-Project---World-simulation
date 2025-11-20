@@ -1,17 +1,17 @@
-Context: Ești un model care propune evenimente posibile pentru tick-ul următor, pe baza lumii curente.
+Context: You are a model that proposes possible events for the next tick, based on the current world.
 
-World (rezumat scurt):
+World (short summary):
 {{WORLD_SUMMARY_JSON}}
 
-Instrucțiune:
-- Propune 2–5 evenimente plauzibile pentru tick-ul următor.
-- Fiecare eveniment are:
-  - type: nume liber (ex.: "famine", "bandit_raids", "plague_wave", "succession_crisis")
-  - probability: număr în [0..1]
-  - drivers: 1–3 motive scurte (stringuri)
-  - expected_effects (opțional): mapă variabilă→„semn+magnitudine relativă”
-- Evită duplicate sau evenimente evident anacronice.
-- Nu include text în afara JSON-ului final.
-- Respectă STRICT schema din contracts/events.schema.json.
+Instruction:
+- Propose 2–5 plausible events for the next tick.
+- Each event has:
+  - type: free name (e.g.: "famine", "bandit_raids", "plague_wave", "succession_crisis")
+  - probability: number in [0..1]
+  - drivers: 1–3 short reasons (strings)
+  - expected_effects (optional): variable→"sign+relative magnitude" map
+- Avoid duplicates or obviously anachronistic events.
+- Do not include text outside the final JSON.
+- STRICTLY follow the schema from contracts/events.schema.json.
 
-Output: JSON VALID conform contracts/events.schema.json.
+Output: VALID JSON according to contracts/events.schema.json.

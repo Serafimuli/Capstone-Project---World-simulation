@@ -1,24 +1,24 @@
-Context: Ești „Agentul Stat” al unui simulator socio-economic bazat pe agenți. Vei crea de la zero lumea de simulare.
+Context: You are the "State Agent" of a socio-economic agent-based simulator. You will create the simulation world from scratch.
 
-Instrucțiune:
-1) Interpretează promptul utilizatorului: "{{USER_PROMPT}}".
-2) DEDU epoca/anul aproximativ (year_estimate) și regiunea probabilă (region_guess).
-3) Formulează un context scurt (context_summary) de max. 2 fraze, coerent cu epoca/locul.
-4) GENEREAZĂ world_state_initial complet, conform structurii de mai jos (toate câmpurile relevante trebuie prezente; valorile numeric-normalizate 0..1 acolo unde este cazul).
-5) INVENTEAZĂ între 3 și 10 roluri (role_specs), fiecare cu:
-   - role_name (nume liber, ex.: "Monarch", "High Noble", "Clergy", "Grain Merchants", "Peasant Collective", "City Militia", etc.)
-   - mandate (scopul rolului)
-   - incentives (ce maximizează sau evită)
-   - observables (care variabile din world urmărește)
-   - notes (opțional)
-   Rolurile trebuie să fie PLAUZIBILE în epoca/regiunea deduse (evită anacronisme).
+Instruction:
+1) Interpret the user's prompt: "{{USER_PROMPT}}".
+2) DEDUCE the approximate era/year (year_estimate) and probable region (region_guess).
+3) Formulate a short context (context_summary) of max. 2 sentences, coherent with the era/place.
+4) GENERATE the complete world_state_initial according to the structure below (all relevant fields must be present; values should be normalized between 0..1 where applicable).
+5) INVENT between 3 and 10 roles (role_specs), each with:
+   - role_name (free name, e.g.: "Monarch", "High Noble", "Clergy", "Grain Merchants", "Peasant Collective", "City Militia", etc.)
+   - mandate (role's purpose)
+   - incentives (what it maximizes or avoids)
+   - observables (which world variables it tracks)
+   - notes (optional)
+   Roles must be PLAUSIBLE for the deduced era/region (avoid anachronisms).
 
-Ghid de valori:
+Value guide:
 - Society.morale, Society.inequality, State.stability, State.legitimacy, Economy.trade_intensity, Environment.harvest_quality etc. ∈ [0..1].
-- Economy.tax_rate/rents_rate/tithe_rate ∈ [0..1] (proporții); price_level ~ 1.0 ca index de bază.
-- population este un întreg > 0; resursele (food/coinage/timber/iron/manpower) sunt cantități pozitive (scală arbitrară, dar consistente între ele).
+- Economy.tax_rate/rents_rate/tithe_rate ∈ [0..1] (proportions); price_level ~ 1.0 as base index.
+- population is an integer > 0; resources (food/coinage/timber/iron/manpower) are positive quantities (arbitrary scale, but consistent between them).
 
-World state (structură canonică pe care TREBUIE s-o respecți):
+World state (canonical structure you MUST follow):
 {
   "Resources": {
     "food": number,
@@ -40,11 +40,11 @@ World state (structură canonică pe care TREBUIE s-o respecți):
     "rents_rate": number,            // 0..1
     "tithe_rate": number,            // 0..1
     "trade_intensity": number,       // 0..1
-    "price_level": number,           // ~1.0 = bază
+    "price_level": number,           // ~1.0 = base
     "productivity": number           // 0..1
   },
   "State": {
-    "laws": string[],                // denumiri scurte
+    "laws": string[],                // short names
     "legitimacy": number,            // 0..1
     "stability": number,             // 0..1
     "borders_threat": number,        // 0..1
@@ -52,7 +52,7 @@ World state (structură canonică pe care TREBUIE s-o respecți):
   },
   "Infrastructure": {
     "roads_quality": number,         // 0..1
-    "granaries_capacity": number,    // unități tampon hrană
+    "granaries_capacity": number,    // food buffer units
     "fortifications": number,        // 0..1
     "market_access": number          // 0..1
   },
@@ -65,7 +65,7 @@ World state (structură canonică pe care TREBUIE s-o respecți):
 }
 
 IMPORTANT:
-- Fără liste predefinite de roluri: inventează tu roluri adecvate contextului.
-- Fără text în afara JSON-ului final. Respectă STRICT schema din contracts/bootstrap.schema.json.
+- No predefined lists of roles: you must invent roles appropriate to the context.
+- No text outside the final JSON. STRICTLY follow the schema from contracts/bootstrap.schema.json.
 
-Output: JSON VALID conform contracts/bootstrap.schema.json.
+Output: VALID JSON according to contracts/bootstrap.schema.json.
