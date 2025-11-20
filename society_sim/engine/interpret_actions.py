@@ -1,8 +1,8 @@
 """
-Interprets *relative* effects (e.g.: "morale":"+0.05", "coinage":"-0.02", "food":"+10%")
-and transforms them into numeric deltas on the world.
-- Simple heuristics: variables 0..1 (additive), stocks (proportional), % respects current base
-- If an effect key does not include the section, it is searched in all sections
+Interpretează efectele *relative* (ex: "morale":"+0.05", "coinage":"-0.02", "food":"+10%")
+și le transformă în delta-uri numerice asupra world-ului.
+- Heuristici ușoare: variabile 0..1 (additive), stocuri (proporționale), % respectă baza curentă
+- Dacă un effect key nu include secțiunea, îl căutăm în toate secțiunile
 """
 from __future__ import annotations
 import copy
@@ -29,25 +29,26 @@ STOCK_KEYS = {
 
 
 def _find_path(world: Dict[str, Any], key: str) -> Optional[Tuple[str, str]]:
-    # Accepts "Society.morale" or just "morale"
+    # Acceptă "Society.morale" sau doar "morale"
     if "." in key:
         sec, var = key.split(".", 1)
         return (sec, var) if sec in world and var in world[sec] else None
-    # searches for the variable in all sections
+    # caută variabila în toate secțiunile
     for sec, section in world.items():
         if isinstance(section, dict) and key in section:
             return sec, key
     return None
 
 
-        """
-        Returns numeric delta (not the final value).
-        Accepts:
-            "+0.05" -> +0.05 (additive)
-            "-0.02" -> -0.02
-            "+10%"  -> current * 0.10
-            "-20%"  -> current * -0.20
-        """
+def _parse_effect(value: str, current: float) -> float:
+    """
+    Returnează delta numeric (nu valoarea finală).
+    Acceptă:
+      "+0.05" -> +0.05 (additiv)
+      "-0.02" -> -0.02
+      "+10%"  -> current * 0.10
+      "-20%"  -> current * -0.20
+    """
     s = value.strip().replace(" ", "")
     m = re.fullmatch(r"([+-]?\d*\.?\d+)%", s)
     if m:
