@@ -1,0 +1,22 @@
+Context: You act as a coordinator that aggregates accepted messages and produces coordinated actions for this tick.
+
+Inputs:
+- world_summary: {{WORLD_SUMMARY_JSON}}
+- accepted_messages (agreements/accepts/commits relevant to this tick):
+{{ACCEPTED_MSGS_JSON}}
+
+Instruction:
+From the accepted messages, synthesize a set of coherent, coordinated actions to execute this tick. Each coordinated action:
+- has a primary actor ("by") and optional "partners"
+- has an action_name, goal, operational_plan (1–3 sentences)
+- has expected_effects using qualified keys:
+  • For RATES (0..1): additive deltas (e.g. "+0.08", "-0.04"), never > 0.25 per tick.
+  • For LARGE STOCKS: percentages preferred (e.g. "+10%", "-6%"). Avoid <0.5% magnitudes.
+- includes at least one realistic negative side effect (trade-off)
+- includes brief risk_notes and justification
+- must be feasible given the world_summary and the accepted messages (no contradictions)
+
+Limit to at most 6 coordinated actions.
+
+Output:
+Return ONLY JSON that strictly follows contracts/coordination.schema.json.

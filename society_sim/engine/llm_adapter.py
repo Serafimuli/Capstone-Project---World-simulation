@@ -29,6 +29,102 @@ PROMPTS_DIR = Path(__file__).resolve().parent.parent / "prompts"
 CONTRACTS_DIR = Path(__file__).resolve().parent.parent / "contracts"
 
 ## Helpers: IO + templating
+def _coerce_scalar(v: Any) -> Any:
+    if isinstance(v, (int, float, bool)) or v is None:
+        return v
+    s = str(v).strip()
+
+    if (s.startswith("{") and s.endswith("}")) or (s.startswith("[") and s.endswith("]")):
+        try:
+            return json.loads(s)
+        except Exception:
+            pass
+
+    if s.lower() in ("true", "false"):
+        return s.lower() == "true"
+
+    m = re.fullmatch(r"([+-]?\d+(?:\.\d+)?)\s*%", s)
+    if m:
+        try:
+            return float(m.group(1))
+        except Exception:
+            return s
+
+    m = re.fullmatch(r"[+-]?\d+(?:\.\d+)?", s)
+    if m:
+        try:
+            return float(s)
+        except Exception:
+            return s
+
+    return s
+
+def _parse_path(key: str) -> list[Any]:
+    parts = [p for p in key.split(".") if p != ""]
+    tokens: list[Any] = []
+    for p in parts:
+        if re.fullmatch(r"\d+", p):
+            tokens.append(int(p))
+        else:
+            tokens.append(p)
+    return tokens
+
+def _assign_path(root: Any, path: list[Any], value: Any) -> Any:
+    if not path:
+        return value
+    head, *tail = path
+
+    if isinstance(head, int):
+        if not isinstance(root, list):
+            root = [] if root is None else []
+
+        while len(root) <= head:
+            root.append(None)
+        root[head] = _assign_path(root[head], tail, value)
+        return root
+
+    if not isinstance(root, dict):
+        root = {} if root is None else {}
+    root[head] = _assign_path(root.get(head), tail, value)
+    return root
+
+def _kv_root_list_to_object_pathy(kv_list: list[dict[str, Any]]) -> dict[str, Any]:
+    root: Any = {}
+    for it in kv_list:
+        if not isinstance(it, dict):
+            continue
+        k = str(it.get("key", "")).strip()
+        if not k:
+            continue
+        v = _coerce_scalar(it.get("value"))
+        path = _parse_path(k)
+        root = _assign_path(root, path, v)
+
+    if isinstance(root, dict) and "metrics" in root and isinstance(root["metrics"], dict):
+        for g in ["resources", "society", "state", "economy", "risk_flags", "volatility"]:
+            root["metrics"].setdefault(g, {})
+    return root
+
+def _ensure_list_of_strings(val: Any, min_items: int = 2, max_items: int = 5) -> list[str]:
+    if isinstance(val, list):
+        items = [str(x).strip() for x in val if str(x).strip()]
+    elif isinstance(val, str):
+        s = val.strip()
+        try:
+            as_json = json.loads(s)
+            if isinstance(as_json, list):
+                items = [str(x).strip() for x in as_json if str(x).strip()]
+            else:
+                raise ValueError
+        except Exception:
+            parts = re.split(r'(?<=[\.\!\?])\s+|[;\n]+', s)
+            items = [p.strip() for p in parts if p and p.strip()]
+    else:
+        items = []
+
+    if len(items) > max_items:
+        items = items[:max_items]
+    return items
 
 def _load_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
@@ -248,9 +344,87 @@ def events(world_summary: Dict[str, Any]) -> Dict[str, Any]:
     return _call_adk(prompt, schema_file="events.schema.json")
 
 def analyze(payload: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Uses prompts/analysis.txt + contracts/analysis.schema.json.
-    """
+    schema_orig = _load_schema("analysis.schema.json")
+
     tpl = _load_text(PROMPTS_DIR / "analysis.txt")
     prompt = _fill(tpl, payload)
-    return _call_adk(prompt, schema_file="analysis.schema.json")
+
+    schema_send = _sanitize_schema_for_adk(schema_orig) if schema_orig else None
+    text = asyncio.run(_adk_call_async(prompt, schema_send))
+
+    try:
+        obj = _json_from_text(text)
+    except Exception:
+        m = re.search(r"\{.*\}|\[.*\]", text, flags=re.S)
+        obj = json.loads(m.group(0)) if m else {}
+
+    obj = _normalize_open_objects(obj)
+
+    if isinstance(obj, list) and all(isinstance(it, dict) and "key" in it and "value" in it for it in obj):
+        obj = _kv_root_list_to_object_pathy(obj)
+
+    if "recommendations" in obj:
+        obj["recommendations"] = _ensure_list_of_strings(obj["recommendations"], 2, 5)
+    if "conclusions" in obj:
+        obj["conclusions"] = _ensure_list_of_strings(obj["conclusions"], 3, 6)
+
+    if isinstance(obj.get("cause_effect_chains"), str):
+        try:
+            obj["cause_effect_chains"] = json.loads(obj["cause_effect_chains"])
+        except Exception:
+            obj["cause_effect_chains"] = []
+
+    if isinstance(obj.get("cause_effect_chains"), list):
+        for ch in obj["cause_effect_chains"]:
+            if isinstance(ch, dict) and isinstance(ch.get("evidence_ticks"), list):
+                ch["evidence_ticks"] = [int(x) for x in ch["evidence_ticks"] if str(x).isdigit()]
+
+    _validate(obj, schema_orig)
+    return obj
+
+
+def messaging_round(role_spec: Dict[str, Any], world_summary: Dict[str, Any], role_inbox_json: list[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Uses prompts/messaging_round.txt + contracts/messaging_round.schema.json.
+    Called each tick for every role to decide 0–2 outbound messages.
+
+    Args:
+        role_spec: the role description from bootstrap (mandate, incentives, etc.)
+        world_summary: current world snapshot (dict)
+        role_inbox_json: messages visible to this role at the current tick
+
+    Returns:
+        Dict[str, Any]: validated output (outbox[], rationale, negotiation_notes)
+    """
+    tpl = _load_text(PROMPTS_DIR / "messaging_round.txt")
+    mapping = {
+        "ROLE_NAME": role_spec.get("role_name", ""),
+        "MANDATE": role_spec.get("mandate", ""),
+        "INCENTIVES": role_spec.get("incentives", ""),
+        "WORLD_SUMMARY_JSON": world_summary,
+        "ROLE_INBOX_JSON": role_inbox_json,
+    }
+    prompt = _fill(tpl, mapping)
+    return _call_adk(prompt, schema_file="messaging_round.schema.json")
+
+
+def coordinate(world_summary: Dict[str, Any], accepted_msgs_json: list[Dict[str, Any]]) -> Dict[str, Any]:
+    """
+    Uses prompts/coordination.txt + contracts/coordination.schema.json.
+    Called once per tick after message exchange, to produce coordinated actions.
+
+    Args:
+        world_summary: current world snapshot (dict)
+        accepted_msgs_json: list of accepted/commit messages forming agreements
+
+    Returns:
+        Dict[str, Any]: validated output (coordinated_actions[])
+    """
+    tpl = _load_text(PROMPTS_DIR / "coordination.txt")
+    mapping = {
+        "WORLD_SUMMARY_JSON": world_summary,
+        "ACCEPTED_MSGS_JSON": accepted_msgs_json,
+    }
+    prompt = _fill(tpl, mapping)
+    return _call_adk(prompt, schema_file="coordination.schema.json")
+

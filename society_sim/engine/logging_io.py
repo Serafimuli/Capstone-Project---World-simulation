@@ -1,26 +1,19 @@
-"""
-Simple logging: writes one JSON/line in runs/<timestamp>/history.jsonl
-"""
+# society_sim/engine/logging_io.py
 from __future__ import annotations
-import json, time
 from pathlib import Path
-from typing import Any, Dict, List
+import json
+import time
 
+def init_run_dir(root: Path) -> Path:
+    root.mkdir(parents=True, exist_ok=True)
+    ts = time.strftime("%Y%m%d-%H%M%S")
+    d = root / ts
+    d.mkdir(parents=True, exist_ok=True)
+    return d
 
-def _ts() -> str:
-    return time.strftime("%Y-%m-%d_%H-%M-%S")
-
-
-def init_run_dir(base: Path) -> Path:
-    base.mkdir(parents=True, exist_ok=True)
-    run_dir = base / _ts()
-    run_dir.mkdir(parents=True, exist_ok=True)
-    return run_dir
-
-
-def write_jsonl(path: Path, obj: Dict[str, Any]) -> None:
+def write_jsonl(path: Path, obj: dict) -> None:
     with path.open("a", encoding="utf-8") as f:
         f.write(json.dumps(obj, ensure_ascii=False) + "\n")
 
-def write_json(path: Path, obj: Dict[str, Any]) -> None:
+def write_json(path: Path, obj: dict) -> None:
     path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")

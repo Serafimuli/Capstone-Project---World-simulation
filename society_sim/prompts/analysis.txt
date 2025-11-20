@@ -7,6 +7,8 @@ Data:
 - per_tick_world: {{PER_TICK_WORLD_JSON}}           // list: state after each tick
 - per_tick_decisions: {{PER_TICK_DECISIONS_JSON}}   // list: decisions (JSON) per tick
 - per_tick_events: {{PER_TICK_EVENTS_JSON}}         // list: proposed + triggered events
+- per_tick_messages: {{PER_TICK_MESSAGES_JSON}}     // messaging transcripts per tick
+- per_tick_coord: {{PER_TICK_COORD_JSON}}           // accepted agreements + coordinated actions
 
 Instruction:
 1) Calculate and report the following METRICS (numeric or short text):
@@ -26,11 +28,19 @@ Instruction:
    - volatility:
      • morale_volatility (0..1)  // proxy: mean absolute deviation per tick
      • price_volatility          // same for price_level
+    - negotiation:
+     • messages_total, propose_count, accept_count, commit_count
+     • accept_rate (= accept_count / max(1, propose_count))
+     • commit_rate (= commit_count / max(1, propose_count))
+   - coordination 
+     • agreements_count, coordinated_actions_count
+
 
 2) Identify at least 3 "cause → effect" chains (cause_effect_chains), based on:
    - decisions (name + impacted variables),
    - triggered events,
    - changes observed in consecutive states.
+   - You may also cite accepted agreements, commits, or coordinated actions
    Format: list of objects {chain, evidence_ticks[]}.
 
 3) Conclusions (3–6 bullet points) about how the world evolved:
