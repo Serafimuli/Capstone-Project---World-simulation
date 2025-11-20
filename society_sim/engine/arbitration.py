@@ -1,7 +1,7 @@
 """
-Arbitraj + guardrails:
-- Prioritizare simplă în funcție de numele acțiunii (pattern-uri)
-- Filtrare acțiuni care ar încălca guardrails (după estimarea numerică preliminară)
+Arbitration + guardrails:
+- Simple prioritization based on action name (patterns)
+- Filter actions that would violate guardrails (based on preliminary numeric estimate)
 """
 from __future__ import annotations
 from typing import Any, Dict, List, Tuple
@@ -26,7 +26,7 @@ def order_actions(role_actions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
 
 
 def violates_guardrails(pre_world: Dict[str, Any], post_world: Dict[str, Any], guardrails: Dict[str, Any]) -> bool:
-    # așteptăm chei precum: min_stability, min_legitimacy, min_food_buffer
+    # expecting keys like: min_stability, min_legitimacy, min_food_buffer
     min_st = float(guardrails.get("min_stability", 0.0))
     min_leg = float(guardrails.get("min_legitimacy", 0.0))
     min_food = float(guardrails.get("min_food_stock", 0.0))

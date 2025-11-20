@@ -1,5 +1,5 @@
 """
-Logging simplu: scrie un JSON/linie în runs/<timestamp>/history.jsonl
+Simple logging: writes one JSON/line in runs/<timestamp>/history.jsonl
 """
 from __future__ import annotations
 import json, time

@@ -1,8 +1,8 @@
 """
-Evenimente:
-- Cere evenimente candidate de la LLM (propuneri + probabilități)
-- Face sampling Bernoulli
-- Aplică efectele estimate folosind aceeași logică din interpret_actions
+Events:
+- Request candidate events from LLM (proposals + probabilities)
+- Perform Bernoulli sampling
+- Apply estimated effects using the same logic as interpret_actions
 """
 from __future__ import annotations
 import random
