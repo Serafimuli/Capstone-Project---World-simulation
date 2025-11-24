@@ -90,3 +90,5 @@ Remember:
 - 0–2 messages max this round.
 - Use normalized terms and exact mirroring on accept/counter.
 - Return ONLY JSON valid by contracts/messaging_round.schema.json.
+
+Each message MUST set valid_until_tick to at least CURRENT_TICK + 1 (prefer +2 for multi-tick coordination).

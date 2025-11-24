@@ -1,7 +1,10 @@
 # society_sim/engine/simulate.py
 from __future__ import annotations
+from asyncio import sleep
 from pathlib import Path
+import random
 from typing import Dict, Any, List, Tuple
+import time
 
 from society_sim.engine import llm_adapter, arbitration, interpret_actions as IA, events, logging_io as LIO
 from society_sim.engine.message_bus import MessageBus, Message
@@ -91,16 +94,17 @@ def run(user_prompt: str, ticks: int = 8, guardrails: Dict[str, Any] | None = No
                         receivers=m["receivers"],
                         intent=m["intent"],
                         content=m.get("content", {}) or {},
-                        valid_until_tick=int(m["valid_until_tick"])
+                        valid_until_tick=t + random.randint(1, 3)
                     ))
                 bus.post_many(msgs)
+                time.sleep(30)  # small pause between messaging_round calls
 
         LIO.write_json(run_dir / f"messages_tick_{t}.json", {
             "inboxes": inboxes_all,
             "outboxes": outboxes_all,
             "all_messages_visible": bus.to_jsonable(bus.all_for_tick(t))
         })
-
+    
         # =====================
         # Phase 2: Coordination (agreements -> coordinated actions)
         # =====================
@@ -120,7 +124,6 @@ def run(user_prompt: str, ticks: int = 8, guardrails: Dict[str, Any] | None = No
                 res = llm_adapter._call_adk(prompt, schema_file="coordination.schema.json")
             coordinated_actions = res.get("coordinated_actions", []) if isinstance(res, dict) else []
         LIO.write_json(run_dir / f"agreements_tick_{t}.json", {"accepted": accepted, "coordinated_actions": coordinated_actions})
-
         # =====================
         # Phase 3: Role Decisions (each role proposes ONE action)
         # =====================
@@ -132,6 +135,7 @@ def run(user_prompt: str, ticks: int = 8, guardrails: Dict[str, Any] | None = No
             preview_world = IA.apply_effects(world, dec.get("expected_effects", {}))
             previews.append({"role_name": dec.get("role_name"), "action_name": dec.get("action_name"),
                              "pre_world": world, "post_world": preview_world})
+            time.sleep(30)  # small pause between role_decision calls
 
         # add coordinated actions as if they were role decisions
         for ca in coordinated_actions:
@@ -164,7 +168,6 @@ def run(user_prompt: str, ticks: int = 8, guardrails: Dict[str, Any] | None = No
 
         for dec in ordered:
             world = IA.apply_effects(world, dec.get("expected_effects", {}))
-
         # =====================
         # Phase 5: Events
         # =====================
@@ -185,6 +188,9 @@ def run(user_prompt: str, ticks: int = 8, guardrails: Dict[str, Any] | None = No
             "world": world
         })
         LIO.write_json(run_dir / f"world_tick_{t}.json", world)
+        time.sleep(20)  # to avoid rate limits
+        
+        
 
     # --- Final
     LIO.write_json(run_dir / "world_final.json", world)
@@ -198,4 +204,4 @@ def run(user_prompt: str, ticks: int = 8, guardrails: Dict[str, Any] | None = No
     return run_dir
 
 if __name__ == "__main__":
-    run("Simulate a medieval world with scarce food, strong clergy and rising trade", ticks=1)
+    run("Romania in 2026", ticks=5)
