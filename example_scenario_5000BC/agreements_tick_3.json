@@ -1,0 +1,150 @@
+{
+  "accepted": [
+    {
+      "by": "Village Elder",
+      "partners": [
+        "Shaman/Priest"
+      ],
+      "terms": {
+        "tithe": "-2%"
+      }
+    },
+    {
+      "by": "Village Elder",
+      "partners": [
+        "Hunter-Gatherer Collective"
+      ],
+      "terms": {
+        "food_delivery": "+5%"
+      }
+    },
+    {
+      "by": "Shaman/Priest",
+      "partners": [
+        "Village Elder"
+      ],
+      "terms": {
+        "tithe": "-2%"
+      }
+    },
+    {
+      "by": "Hunter-Gatherer Collective",
+      "partners": [
+        "Village Elder"
+      ],
+      "terms": {
+        "food_delivery": "+5%"
+      }
+    },
+    {
+      "by": "Farmer Household",
+      "partners": [
+        "Village Elder"
+      ],
+      "terms": {
+        "food_surplus_contribution": "+3%"
+      }
+    },
+    {
+      "by": "Craftsmen",
+      "partners": [
+        "Village Elder"
+      ],
+      "terms": {
+        "tool_provision": "+2 units",
+        "food_barter": "-5%"
+      }
+    }
+  ],
+  "coordinated_actions": [
+    {
+      "by": "Village Elder",
+      "partners": [
+        "Shaman/Priest",
+        "Hunter-Gatherer Collective",
+        "Farmer Household",
+        "Craftsmen"
+      ],
+      "action_name": "Community Resource Consolidation and Distribution",
+      "goal": "Consolidate all agreed contributions and distribute resources to maintain community well-being and social harmony.",
+      "operational_plan": "The Village Elder will receive the tithe adjustment, food delivery, surplus contribution, and tool provision in exchange for food barter. Subsequently, these resources will be managed and distributed to the community, prioritizing fairness to preserve social harmony.",
+      "expected_effects": {
+        "Resources.food": "-6%",
+        "Economy.tithe_rate": "-0.02",
+        "Economy.trade_intensity": "+0.02",
+        "Society.morale": "+0.08",
+        "Resources.manpower": "-4%",
+        "State.stability": "+0.01"
+      },
+      "risk_notes": "Significant manpower required for collection and distribution. Depletion of food stores necessitates careful management. Potential for social friction if distribution is perceived as inequitable.",
+      "justification": "This action aggregates all finalized agreements to efficiently manage community resources and maintain social cohesion. It directly supports the Village Elder's mandate and incentives by ensuring resources are collected and distributed effectively."
+    },
+    {
+      "by": "Shaman/Priest",
+      "partners": [
+        "Village Elder"
+      ],
+      "action_name": "Finalize Tithe Adjustment and Spiritual Duties",
+      "goal": "Confirm the tithe adjustment and continue spiritual guidance to ensure community spiritual health.",
+      "operational_plan": "Confirm the finalized -2% tithe adjustment with the Village Elder. Continue to perform religious rituals and provide spiritual guidance, aiming to maximize divine favor and influence.",
+      "expected_effects": {
+        "Economy.tithe_rate": "-0.02",
+        "Society.religious_influence": "+0.05",
+        "Society.morale": "+0.02"
+      },
+      "risk_notes": "Reduced tithe revenue requires efficient allocation of resources for religious activities.",
+      "justification": "This action confirms the agreed-upon tithe reduction and ensures the Shaman/Priest's ongoing spiritual duties, aligning with incentives to maintain influence and community spiritual health."
+    },
+    {
+      "by": "Hunter-Gatherer Collective",
+      "partners": [
+        "Village Elder"
+      ],
+      "action_name": "Deliver Food Contribution and Continue Foraging",
+      "goal": "Fulfill food delivery commitment and continue supplementary food acquisition.",
+      "operational_plan": "Deliver the agreed 5% food contribution to the Village Elder. Continue hunting and foraging activities to maximize individual food intake and minimize personal effort, avoiding danger.",
+      "expected_effects": {
+        "Resources.food": "+4%",
+        "Resources.manpower": "-3%",
+        "Society.morale": "+0.02"
+      },
+      "risk_notes": "Manpower expenditure on delivery and continued foraging increases risk and reduces immediate availability for other tasks.",
+      "justification": "This action fulfills the commitment to the Village Elder and continues the Collective's primary mandate, balancing community contribution with individual incentives."
+    },
+    {
+      "by": "Farmer Household",
+      "partners": [
+        "Village Elder"
+      ],
+      "action_name": "Contribute Surplus and Maintain Cultivation",
+      "goal": "Contribute surplus food and continue intensive cultivation for survival and future production.",
+      "operational_plan": "Deliver the agreed 3% food surplus contribution to the Village Elder. Continue intensive cultivation and livestock tending to maximize food production and secure family survival.",
+      "expected_effects": {
+        "Resources.food": "+5%",
+        "Economy.productivity": "+0.03",
+        "Resources.manpower": "-4%",
+        "Society.morale": "+0.01"
+      },
+      "risk_notes": "Reduced manpower due to intensive farming. Potential for unforeseen environmental impacts on future yields.",
+      "justification": "This action formalizes the surplus contribution and continues the household's focus on maximizing food production, directly supporting survival incentives."
+    },
+    {
+      "by": "Craftsmen",
+      "partners": [
+        "Village Elder"
+      ],
+      "action_name": "Tool Delivery and Barter for Necessities",
+      "goal": "Deliver agreed tools and barter for essential food resources.",
+      "operational_plan": "Deliver the agreed 2 units of tools to the Village Elder and receive the agreed food barter. Continue producing tools and gathering resources to maximize creation of useful items and trade for necessities.",
+      "expected_effects": {
+        "Infrastructure.market_access": "+0.02",
+        "Resources.food": "-2%",
+        "Economy.productivity": "+0.02",
+        "Resources.manpower": "-3%",
+        "Resources.timber": "+2%"
+      },
+      "risk_notes": "Consumption of food for barter and manpower for delivery and production. Potential for timber depletion if not managed.",
+      "justification": "This action fulfills the agreement with the Village Elder, providing tools and securing food. It supports the craftsman's incentives to create useful items and trade for necessities, enhancing market access and productivity."
+    }
+  ]
+}

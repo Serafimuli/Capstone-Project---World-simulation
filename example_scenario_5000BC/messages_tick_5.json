@@ -1,0 +1,582 @@
+{
+  "inboxes": {
+    "Village Elder": [
+      {
+        "id": "a595394d-8e04-4554-be3f-de262fe378f5",
+        "sender": "Shaman/Priest",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764057746.7069194
+      },
+      {
+        "id": "7f58a206-4426-4d3c-a303-f27f69ff03e1",
+        "sender": "Hunter-Gatherer Collective",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "food_delivery": "+5%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764057778.7677946
+      },
+      {
+        "id": "f715c694-1bbf-49d7-8d02-1f576c28388d",
+        "sender": "Farmer Household",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "food_surplus_contribution": "+3%"
+        },
+        "valid_until_tick": 5,
+        "created_at": 1764057810.9175498
+      },
+      {
+        "id": "0e645165-a848-413c-879b-900137ed7cd5",
+        "sender": "Craftsmen",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 5,
+        "created_at": 1764057843.0487492
+      },
+      {
+        "id": "97445fbd-38ee-403b-a476-97f7ad9cd34d",
+        "sender": "Shaman/Priest",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%"
+        },
+        "valid_until_tick": 5,
+        "created_at": 1764058100.9424002
+      },
+      {
+        "id": "727bc00d-36d2-4d7a-a5e3-2f8fe8385445",
+        "sender": "Hunter-Gatherer Collective",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "food_delivery": "+5%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764058133.381126
+      },
+      {
+        "id": "48fefdd9-ac13-4629-a54e-21a7a3c1f7eb",
+        "sender": "Farmer Household",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "food_surplus_contribution": "+3%"
+        },
+        "valid_until_tick": 7,
+        "created_at": 1764058165.6786644
+      },
+      {
+        "id": "2cfa1d17-1ef8-44c1-8910-6d4f4b00515b",
+        "sender": "Craftsmen",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 5,
+        "created_at": 1764058200.1577983
+      }
+    ],
+    "Shaman/Priest": [
+      {
+        "id": "20b2d9f8-b4a3-4e8b-a108-c5b622d35f5f",
+        "sender": "Village Elder",
+        "receivers": [
+          "Shaman/Priest",
+          "Hunter-Gatherer Collective",
+          "Farmer Household",
+          "Craftsmen"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%",
+          "food_delivery": "+5%",
+          "food_surplus_contribution": "+3%",
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764058068.2272267
+      },
+      {
+        "id": "b02944e2-c270-4a44-89b7-2c260b0a4064",
+        "sender": "Village Elder",
+        "receivers": [
+          "Shaman/Priest",
+          "Hunter-Gatherer Collective",
+          "Farmer Household",
+          "Craftsmen"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%",
+          "food_delivery": "+5%",
+          "food_surplus_contribution": "+3%",
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764058424.014655
+      }
+    ],
+    "Hunter-Gatherer Collective": [
+      {
+        "id": "c9a45e68-33d8-4725-8082-d5221b8cb773",
+        "sender": "Village Elder",
+        "receivers": [
+          "Hunter-Gatherer Collective"
+        ],
+        "intent": "commit",
+        "content": {
+          "food_delivery": "+5%"
+        },
+        "valid_until_tick": 5,
+        "created_at": 1764057714.5933301
+      },
+      {
+        "id": "20b2d9f8-b4a3-4e8b-a108-c5b622d35f5f",
+        "sender": "Village Elder",
+        "receivers": [
+          "Shaman/Priest",
+          "Hunter-Gatherer Collective",
+          "Farmer Household",
+          "Craftsmen"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%",
+          "food_delivery": "+5%",
+          "food_surplus_contribution": "+3%",
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764058068.2272267
+      },
+      {
+        "id": "b02944e2-c270-4a44-89b7-2c260b0a4064",
+        "sender": "Village Elder",
+        "receivers": [
+          "Shaman/Priest",
+          "Hunter-Gatherer Collective",
+          "Farmer Household",
+          "Craftsmen"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%",
+          "food_delivery": "+5%",
+          "food_surplus_contribution": "+3%",
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764058424.014655
+      }
+    ],
+    "Farmer Household": [
+      {
+        "id": "20b2d9f8-b4a3-4e8b-a108-c5b622d35f5f",
+        "sender": "Village Elder",
+        "receivers": [
+          "Shaman/Priest",
+          "Hunter-Gatherer Collective",
+          "Farmer Household",
+          "Craftsmen"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%",
+          "food_delivery": "+5%",
+          "food_surplus_contribution": "+3%",
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764058068.2272267
+      },
+      {
+        "id": "b02944e2-c270-4a44-89b7-2c260b0a4064",
+        "sender": "Village Elder",
+        "receivers": [
+          "Shaman/Priest",
+          "Hunter-Gatherer Collective",
+          "Farmer Household",
+          "Craftsmen"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%",
+          "food_delivery": "+5%",
+          "food_surplus_contribution": "+3%",
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764058424.014655
+      }
+    ],
+    "Craftsmen": [
+      {
+        "id": "20b2d9f8-b4a3-4e8b-a108-c5b622d35f5f",
+        "sender": "Village Elder",
+        "receivers": [
+          "Shaman/Priest",
+          "Hunter-Gatherer Collective",
+          "Farmer Household",
+          "Craftsmen"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%",
+          "food_delivery": "+5%",
+          "food_surplus_contribution": "+3%",
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764058068.2272267
+      },
+      {
+        "id": "b02944e2-c270-4a44-89b7-2c260b0a4064",
+        "sender": "Village Elder",
+        "receivers": [
+          "Shaman/Priest",
+          "Hunter-Gatherer Collective",
+          "Farmer Household",
+          "Craftsmen"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%",
+          "food_delivery": "+5%",
+          "food_surplus_contribution": "+3%",
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 6,
+        "created_at": 1764058424.014655
+      }
+    ]
+  },
+  "outboxes": {
+    "Village Elder": [
+      {
+        "sender": "Village Elder",
+        "receivers": [
+          "Shaman/Priest",
+          "Hunter-Gatherer Collective",
+          "Farmer Household",
+          "Craftsmen"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%",
+          "food_delivery": "+5%",
+          "food_surplus_contribution": "+3%",
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 6
+      }
+    ],
+    "Shaman/Priest": [
+      {
+        "sender": "Shaman/Priest",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "tithe": "-2%"
+        },
+        "valid_until_tick": 5
+      }
+    ],
+    "Hunter-Gatherer Collective": [
+      {
+        "sender": "Hunter-Gatherer Collective",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "food_delivery": "+5%"
+        },
+        "valid_until_tick": 5
+      }
+    ],
+    "Farmer Household": [
+      {
+        "sender": "Farmer Household",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "food_surplus_contribution": "+3%"
+        },
+        "valid_until_tick": 7
+      }
+    ],
+    "Craftsmen": [
+      {
+        "sender": "Craftsmen",
+        "receivers": [
+          "Village Elder"
+        ],
+        "intent": "commit",
+        "content": {
+          "tool_provision": "+2 units",
+          "food_barter": "-5%"
+        },
+        "valid_until_tick": 5
+      }
+    ]
+  },
+  "all_messages_visible": [
+    {
+      "id": "c9a45e68-33d8-4725-8082-d5221b8cb773",
+      "sender": "Village Elder",
+      "receivers": [
+        "Hunter-Gatherer Collective"
+      ],
+      "intent": "commit",
+      "content": {
+        "food_delivery": "+5%"
+      },
+      "valid_until_tick": 5,
+      "created_at": 1764057714.5933301
+    },
+    {
+      "id": "a595394d-8e04-4554-be3f-de262fe378f5",
+      "sender": "Shaman/Priest",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "tithe": "-2%"
+      },
+      "valid_until_tick": 6,
+      "created_at": 1764057746.7069194
+    },
+    {
+      "id": "7f58a206-4426-4d3c-a303-f27f69ff03e1",
+      "sender": "Hunter-Gatherer Collective",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "food_delivery": "+5%"
+      },
+      "valid_until_tick": 6,
+      "created_at": 1764057778.7677946
+    },
+    {
+      "id": "f715c694-1bbf-49d7-8d02-1f576c28388d",
+      "sender": "Farmer Household",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "food_surplus_contribution": "+3%"
+      },
+      "valid_until_tick": 5,
+      "created_at": 1764057810.9175498
+    },
+    {
+      "id": "0e645165-a848-413c-879b-900137ed7cd5",
+      "sender": "Craftsmen",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "tool_provision": "+2 units",
+        "food_barter": "-5%"
+      },
+      "valid_until_tick": 5,
+      "created_at": 1764057843.0487492
+    },
+    {
+      "id": "20b2d9f8-b4a3-4e8b-a108-c5b622d35f5f",
+      "sender": "Village Elder",
+      "receivers": [
+        "Shaman/Priest",
+        "Hunter-Gatherer Collective",
+        "Farmer Household",
+        "Craftsmen"
+      ],
+      "intent": "commit",
+      "content": {
+        "tithe": "-2%",
+        "food_delivery": "+5%",
+        "food_surplus_contribution": "+3%",
+        "tool_provision": "+2 units",
+        "food_barter": "-5%"
+      },
+      "valid_until_tick": 6,
+      "created_at": 1764058068.2272267
+    },
+    {
+      "id": "97445fbd-38ee-403b-a476-97f7ad9cd34d",
+      "sender": "Shaman/Priest",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "tithe": "-2%"
+      },
+      "valid_until_tick": 5,
+      "created_at": 1764058100.9424002
+    },
+    {
+      "id": "727bc00d-36d2-4d7a-a5e3-2f8fe8385445",
+      "sender": "Hunter-Gatherer Collective",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "food_delivery": "+5%"
+      },
+      "valid_until_tick": 6,
+      "created_at": 1764058133.381126
+    },
+    {
+      "id": "48fefdd9-ac13-4629-a54e-21a7a3c1f7eb",
+      "sender": "Farmer Household",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "food_surplus_contribution": "+3%"
+      },
+      "valid_until_tick": 7,
+      "created_at": 1764058165.6786644
+    },
+    {
+      "id": "2cfa1d17-1ef8-44c1-8910-6d4f4b00515b",
+      "sender": "Craftsmen",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "tool_provision": "+2 units",
+        "food_barter": "-5%"
+      },
+      "valid_until_tick": 5,
+      "created_at": 1764058200.1577983
+    },
+    {
+      "id": "b02944e2-c270-4a44-89b7-2c260b0a4064",
+      "sender": "Village Elder",
+      "receivers": [
+        "Shaman/Priest",
+        "Hunter-Gatherer Collective",
+        "Farmer Household",
+        "Craftsmen"
+      ],
+      "intent": "commit",
+      "content": {
+        "tithe": "-2%",
+        "food_delivery": "+5%",
+        "food_surplus_contribution": "+3%",
+        "tool_provision": "+2 units",
+        "food_barter": "-5%"
+      },
+      "valid_until_tick": 6,
+      "created_at": 1764058424.014655
+    },
+    {
+      "id": "dbcab654-4c65-4270-9a50-be399aa11632",
+      "sender": "Shaman/Priest",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "tithe": "-2%"
+      },
+      "valid_until_tick": 8,
+      "created_at": 1764058456.264195
+    },
+    {
+      "id": "3c29de8b-298c-4156-9d44-aa316775e1c8",
+      "sender": "Hunter-Gatherer Collective",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "food_delivery": "+5%"
+      },
+      "valid_until_tick": 7,
+      "created_at": 1764058488.6291938
+    },
+    {
+      "id": "293a960e-fd5b-4c96-bec1-d88ca781744d",
+      "sender": "Farmer Household",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "food_surplus_contribution": "+3%"
+      },
+      "valid_until_tick": 8,
+      "created_at": 1764058527.0452776
+    },
+    {
+      "id": "f364c9de-052a-4602-9bb0-1bf1bf7a7aa7",
+      "sender": "Craftsmen",
+      "receivers": [
+        "Village Elder"
+      ],
+      "intent": "commit",
+      "content": {
+        "tool_provision": "+2 units",
+        "food_barter": "-5%"
+      },
+      "valid_until_tick": 6,
+      "created_at": 1764058559.3795125
+    }
+  ]
+}

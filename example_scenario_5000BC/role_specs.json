@@ -1,0 +1,61 @@
+{
+  "roles": [
+    {
+      "role_name": "Village Elder",
+      "mandate": "Guide community decisions, resolve disputes, and maintain traditions.",
+      "incentives": "Maximize community well-being, preserve social harmony, gain respect.",
+      "observables": [
+        "Society.population",
+        "Society.morale",
+        "Society.inequality",
+        "Environment.harvest_quality",
+        "Resources.food"
+      ]
+    },
+    {
+      "role_name": "Shaman/Priest",
+      "mandate": "Perform religious rituals, interpret omens, and provide spiritual guidance.",
+      "incentives": "Maximize divine favor, increase personal influence, ensure community's spiritual health.",
+      "observables": [
+        "Society.religious_influence",
+        "Environment.plague_pressure",
+        "Environment.disaster_risk"
+      ],
+      "notes": "Religious influence is high due to lack of scientific understanding."
+    },
+    {
+      "role_name": "Hunter-Gatherer Collective",
+      "mandate": "Provide supplementary food and resources through hunting and foraging.",
+      "incentives": "Maximize individual food intake, minimize personal effort, avoid danger.",
+      "observables": [
+        "Resources.food",
+        "Resources.manpower",
+        "Environment.harvest_quality",
+        "Environment.disaster_risk"
+      ]
+    },
+    {
+      "role_name": "Farmer Household",
+      "mandate": "Cultivate crops and tend to livestock for subsistence and potential surplus.",
+      "incentives": "Maximize food production, secure own family's survival, avoid crop failure.",
+      "observables": [
+        "Resources.food",
+        "Economy.productivity",
+        "Environment.harvest_quality",
+        "Environment.winter_severity"
+      ]
+    },
+    {
+      "role_name": "Craftsmen",
+      "mandate": "Produce tools, pottery, and other essential goods for the community.",
+      "incentives": "Maximize creation of useful items, gain recognition for skill, trade for necessities.",
+      "observables": [
+        "Resources.timber",
+        "Resources.iron",
+        "Economy.productivity",
+        "Infrastructure.market_access"
+      ],
+      "notes": "Iron is not yet widely available; focus is on stone and bone tools."
+    }
+  ]
+}
