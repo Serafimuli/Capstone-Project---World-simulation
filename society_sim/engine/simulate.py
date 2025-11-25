@@ -204,4 +204,4 @@ def run(user_prompt: str, ticks: int = 8, guardrails: Dict[str, Any] | None = No
     return run_dir
 
 if __name__ == "__main__":
-    run("Romania in 2026", ticks=5)
+    run("Romania in 1967", ticks=1)

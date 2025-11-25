@@ -28,6 +28,92 @@ from google.genai.types import Content, Part  # tipuri de mesaje (user/model)
 PROMPTS_DIR = Path(__file__).resolve().parent.parent / "prompts"
 CONTRACTS_DIR = Path(__file__).resolve().parent.parent / "contracts"
 
+
+_PERCENT_RE = re.compile(r"^\s*([+-]?\d+(?:\.\d+)?)\s*%\s*$")
+_NUM_RE     = re.compile(r"^\s*([+-]?\d+(?:\.\d+)?)\s*$")
+
+def _deep_coerce_scalars(x: Any) -> Any:
+    if isinstance(x, dict):
+        return {k: _deep_coerce_scalars(v) for k, v in x.items()}
+    if isinstance(x, list):
+        return [_deep_coerce_scalars(v) for v in x]
+    if isinstance(x, str):
+        s = x.strip()
+
+        # Booleans (accept Python or JSON style)
+        if s.lower() in ("true", "false"):
+            return s.lower() == "true"
+
+        # Percent -> float of the numeric part (e.g., "30.05%" -> 30.05)
+        m = _PERCENT_RE.match(s)
+        if m:
+            try:
+                return float(m.group(1))
+            except ValueError:
+                return x
+
+        # Plain number with optional sign
+        m = _NUM_RE.match(s)
+        if m:
+            try:
+                return float(m.group(1))
+            except ValueError:
+                return x
+    return x
+
+def _normalize_evidence_ticks(obj: dict[str, Any]) -> dict[str, Any]:
+    """
+    Ensures evidence_ticks are 1-based and valid integers >= 1.
+    If any 0s are present and there are no negatives, we assume zero-based indexing and bump all by +1.
+    Otherwise we clamp each tick to at least 1.
+    """
+    chains = obj.get("cause_effect_chains")
+    if not isinstance(chains, list):
+        return obj
+
+    # Detect if the author used 0-based indexing (presence of 0 and no negatives)
+    has_zero = False
+    has_negative = False
+    for ch in chains:
+        ticks = ch.get("evidence_ticks")
+        if isinstance(ticks, list):
+            for t in ticks:
+                if isinstance(t, int):
+                    if t == 0:
+                        has_zero = True
+                    elif t < 0:
+                        has_negative = True
+
+    zero_based = has_zero and not has_negative
+
+    for ch in chains:
+        ticks = ch.get("evidence_ticks")
+        if not isinstance(ticks, list):
+            continue
+
+        normalized = []
+        for t in ticks:
+            try:
+                ti = int(t)
+            except Exception:
+                continue  # drop non-integers silently
+
+            if zero_based:
+                ti = ti + 1  # shift to 1-based
+
+            if ti < 1:
+                ti = 1  # clamp to schema minimum
+
+            normalized.append(ti)
+
+        # Guarantee non-empty list to avoid accidental empties after filtering
+        if not normalized:
+            normalized = [1]
+
+        ch["evidence_ticks"] = normalized
+
+    return obj
+
 ## Helpers: IO + templating
 def _coerce_scalar(v: Any) -> Any:
     if isinstance(v, (int, float, bool)) or v is None:
@@ -184,10 +270,6 @@ def _validate(obj: Dict[str, Any], schema: Optional[Dict[str, Any]]) -> None:
 
 
 def _sanitize_schema_for_adk(schema: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    ADK uses under the hood a schema representation similar to genai,
-    which does NOT accept all of JSON Schema. We clean and transform "additionalProperties".
-    """
     if not isinstance(schema, dict):
         return schema
 
@@ -202,30 +284,67 @@ def _sanitize_schema_for_adk(schema: Dict[str, Any]) -> Dict[str, Any]:
 
     def _walk(node: Any) -> Any:
         if isinstance(node, dict):
-            if node.get("type") == "object" and "additionalProperties" in node:
-                return _open_object_to_kv_array(node)
+            if node.get("type") == "object":
+                ap = node.get("additionalProperties", None)
+                # Only transform truly "open" objects
+                if ap is True:
+                    return _open_object_to_kv_array(node)
+
             out = {}
             for k, v in node.items():
                 if k in DROP_KEYS:
+                    continue
+                if k == "additionalProperties":
+                    # Drop it (ADK doesn't support it), but don't convert
+                    # closed objects into KV arrays.
                     continue
                 if k in ("properties", "definitions") and isinstance(v, dict):
                     out[k] = {pk: _walk(pv) for pk, pv in v.items()}
                 elif k == "items":
                     out[k] = _walk(v)
-                elif k == "required" and isinstance(v, list):
-                    out[k] = v
-                elif k == "enum" and isinstance(v, list):
-                    out[k] = v
-                elif k == "additionalProperties":
-                    continue  # already handled above
                 else:
                     out[k] = _walk(v)
             return out
+
         if isinstance(node, list):
             return [_walk(x) for x in node]
         return node
 
     return _walk(schema)
+
+def _clamp_number(x, lower=None, upper=None):
+    try:
+        v = float(x)
+    except Exception:
+        return lower if lower is not None else 0.0
+    if v != v:  # NaN
+        v = 0.0
+    if lower is not None and v < lower:
+        v = lower
+    if upper is not None and v > upper:
+        v = upper
+    return v
+
+def _normalize_volatility(obj: dict) -> dict:
+    m = obj.get("metrics")
+    if not isinstance(m, dict):
+        return obj
+    vol = m.get("volatility")
+    if not isinstance(vol, dict):
+        return obj
+
+    # Schema: morale_volatility in [0,1]; price_volatility >= 0
+    if "morale_volatility" in vol:
+        vol["morale_volatility"] = _clamp_number(vol["morale_volatility"], lower=0.0, upper=1.0)
+    else:
+        vol["morale_volatility"] = 0.0
+
+    if "price_volatility" in vol:
+        vol["price_volatility"] = _clamp_number(vol["price_volatility"], lower=0.0)
+    else:
+        vol["price_volatility"] = 0.0
+
+    return obj
 
 
 _MODEL = os.getenv("GEMINI_MODEL", "gemini-2.0-flash").strip()
@@ -359,6 +478,9 @@ def analyze(payload: Dict[str, Any]) -> Dict[str, Any]:
         obj = json.loads(m.group(0)) if m else {}
 
     obj = _normalize_open_objects(obj)
+    obj = _deep_coerce_scalars(obj)         
+    obj = _normalize_evidence_ticks(obj)     
+    obj = _normalize_volatility(obj)   
 
     if isinstance(obj, list) and all(isinstance(it, dict) and "key" in it and "value" in it for it in obj):
         obj = _kv_root_list_to_object_pathy(obj)

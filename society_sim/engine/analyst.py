@@ -108,3 +108,4 @@ def build_payload(run_dir: Path, ticks: int) -> Dict[str, Any]:
         payload["PER_TICK_COORD_JSON"] = per_tick_coord
 
     return payload
+
