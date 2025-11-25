@@ -1,127 +1,151 @@
 {
   "inboxes": {
-    "Village Elder": [
+    "Tribal Elder": [
       {
-        "id": "c5f80149-083e-4a42-b3da-16f2c349b629",
+        "id": "29e1c836-8e93-4e09-9204-769f2e1121a2",
         "sender": "Shaman/Priest",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
-        "intent": "counter",
+        "intent": "accept",
         "content": {
-          "tithe": "-2%"
+          "tithe_support": "+5%"
         },
-        "valid_until_tick": 2,
-        "created_at": 1764057042.0189335
+        "valid_until_tick": 3,
+        "created_at": 1764056894.1308675
       },
       {
-        "id": "98839d92-4fb6-49ea-b2c7-bbe22198de95",
+        "id": "a3d70de2-127f-434a-8b5d-9b9f11e414cb",
         "sender": "Hunter-Gatherer Collective",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
         "intent": "propose",
         "content": {
-          "food_delivery": "+5%"
+          "food_contribution": "+15%",
+          "land_access_guarantee": "maintained"
         },
-        "valid_until_tick": 2,
-        "created_at": 1764057074.2780328
+        "valid_until_tick": 3,
+        "created_at": 1764056926.1312988
       },
       {
-        "id": "bf4d334d-4902-449b-8eff-548f5b0d1380",
-        "sender": "Farmer Household",
+        "id": "9039ac7a-dbd3-42ed-846f-ec7b3b6a3c05",
+        "sender": "Farmer Family Unit",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
         "intent": "propose",
         "content": {
-          "food_surplus_contribution": "+3%"
+          "food_contribution": "+10%",
+          "land_usage_rights": "guaranteed"
         },
-        "valid_until_tick": 2,
-        "created_at": 1764057106.3104901
+        "valid_until_tick": 3,
+        "created_at": 1764056957.974565
       },
       {
-        "id": "2544a982-fcb8-4f4b-a092-db4d792ec112",
-        "sender": "Craftsmen",
+        "id": "d5f321fb-b402-44d1-991d-8876e01b81bf",
+        "sender": "Craftsman",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
         "intent": "propose",
         "content": {
-          "tool_provision": "+2 units",
-          "food_barter": "-5%"
+          "tool_provision": "+10%",
+          "food_exchange_rate": "-5%"
         },
-        "valid_until_tick": 2,
-        "created_at": 1764057138.2048132
-      }
-    ],
-    "Shaman/Priest": [
+        "valid_until_tick": 3,
+        "created_at": 1764056989.8698156
+      },
       {
-        "id": "da72dc57-ade2-4104-aaff-6044c840ba3b",
-        "sender": "Village Elder",
+        "id": "c61644fc-3271-48fc-a80f-86108132fbcb",
+        "sender": "Village Watch",
         "receivers": [
-          "Shaman/Priest"
+          "Tribal Elder"
         ],
         "intent": "request",
         "content": {
-          "tithe": "-5%"
+          "community_support": "+manpower for patrols",
+          "fortification_enhancement": "+timber"
         },
-        "valid_until_tick": 4,
-        "created_at": 1764057010.1443956
-      },
+        "valid_until_tick": 3,
+        "created_at": 1764057021.612839
+      }
+    ],
+    "Shaman/Priest": [
       {
-        "id": "b3f6d381-b731-49f0-804d-d5b020a732fa",
-        "sender": "Village Elder",
+        "id": "25bf90c9-1da6-4889-b85f-c3b52a0beb98",
+        "sender": "Tribal Elder",
         "receivers": [
           "Shaman/Priest"
         ],
-        "intent": "accept",
+        "intent": "propose",
         "content": {
-          "tithe": "-2%"
+          "tithe_support": "+5%"
         },
-        "valid_until_tick": 4,
-        "created_at": 1764057357.4906006
+        "valid_until_tick": 3,
+        "created_at": 1764056862.4075072
       }
     ],
-    "Hunter-Gatherer Collective": [
+    "Hunter-Gatherer Collective": [],
+    "Farmer Family Unit": [
       {
-        "id": "33209448-8a4a-4f89-bf1a-25ab10d8bcfa",
-        "sender": "Village Elder",
+        "id": "701ba0c5-bc61-45ec-bc22-0393322e5cd9",
+        "sender": "Tribal Elder",
         "receivers": [
-          "Hunter-Gatherer Collective"
+          "Farmer Family Unit"
         ],
         "intent": "accept",
         "content": {
-          "food_delivery": "+5%"
+          "food_contribution": "+10%",
+          "land_usage_rights": "guaranteed"
         },
-        "valid_until_tick": 4,
-        "created_at": 1764057357.490605
+        "valid_until_tick": 5,
+        "created_at": 1764057274.9011235
       }
     ],
-    "Farmer Household": [],
-    "Craftsmen": []
+    "Craftsman": [],
+    "Village Watch": [
+      {
+        "id": "d5eeae4a-3139-471e-ab54-c44082ce327a",
+        "sender": "Tribal Elder",
+        "receivers": [
+          "Village Watch"
+        ],
+        "intent": "propose",
+        "content": {
+          "community_support": "+manpower for patrols",
+          "fortification_enhancement": "+timber",
+          "manpower_allocation": "-2%"
+        },
+        "valid_until_tick": 4,
+        "created_at": 1764057274.9011188
+      }
+    ]
   },
   "outboxes": {
-    "Village Elder": [
+    "Tribal Elder": [
       {
-        "sender": "Village Elder",
+        "sender": "Tribal Elder",
         "receivers": [
-          "Shaman/Priest"
+          "Village Watch"
         ],
-        "intent": "accept",
+        "intent": "propose",
         "content": {
-          "tithe": "-2%"
+          "community_support": "+manpower for patrols",
+          "fortification_enhancement": "+timber",
+          "manpower_allocation": "-2%"
         },
         "valid_until_tick": 3
       },
       {
-        "sender": "Village Elder",
+        "sender": "Tribal Elder",
         "receivers": [
-          "Hunter-Gatherer Collective"
+          "Farmer Family Unit"
         ],
         "intent": "accept",
         "content": {
-          "food_delivery": "+5%"
+          "food_contribution": "+10%",
+          "land_usage_rights": "guaranteed"
         },
         "valid_until_tick": 3
       }
@@ -130,11 +154,11 @@
       {
         "sender": "Shaman/Priest",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
         "intent": "accept",
         "content": {
-          "tithe": "-2%"
+          "tithe_support": "+5%"
         },
         "valid_until_tick": 3
       }
@@ -143,188 +167,241 @@
       {
         "sender": "Hunter-Gatherer Collective",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
         "intent": "accept",
         "content": {
-          "food_delivery": "+5%"
+          "food_contribution": "+15%",
+          "land_access_guarantee": "maintained"
         },
         "valid_until_tick": 3
       }
     ],
-    "Farmer Household": [
+    "Farmer Family Unit": [
       {
-        "sender": "Farmer Household",
+        "sender": "Farmer Family Unit",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
         "intent": "accept",
         "content": {
-          "food_surplus_contribution": "+3%"
+          "food_contribution": "+10%",
+          "land_usage_rights": "guaranteed"
+        },
+        "valid_until_tick": 6
+      }
+    ],
+    "Craftsman": [
+      {
+        "sender": "Craftsman",
+        "receivers": [
+          "Tribal Elder"
+        ],
+        "intent": "accept",
+        "content": {
+          "tool_provision": "+10%",
+          "food_exchange_rate": "-5%"
         },
         "valid_until_tick": 3
       }
     ],
-    "Craftsmen": [
+    "Village Watch": [
       {
-        "sender": "Craftsmen",
+        "sender": "Village Watch",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
         "intent": "accept",
         "content": {
-          "tool_provision": "+2 units",
-          "food_barter": "-5%"
+          "community_support": "+manpower for patrols",
+          "fortification_enhancement": "+timber",
+          "manpower_allocation": "-2%"
         },
-        "valid_until_tick": 3
+        "valid_until_tick": 5
       }
     ]
   },
   "all_messages_visible": [
     {
-      "id": "da72dc57-ade2-4104-aaff-6044c840ba3b",
-      "sender": "Village Elder",
+      "id": "25bf90c9-1da6-4889-b85f-c3b52a0beb98",
+      "sender": "Tribal Elder",
       "receivers": [
         "Shaman/Priest"
+      ],
+      "intent": "propose",
+      "content": {
+        "tithe_support": "+5%"
+      },
+      "valid_until_tick": 3,
+      "created_at": 1764056862.4075072
+    },
+    {
+      "id": "29e1c836-8e93-4e09-9204-769f2e1121a2",
+      "sender": "Shaman/Priest",
+      "receivers": [
+        "Tribal Elder"
+      ],
+      "intent": "accept",
+      "content": {
+        "tithe_support": "+5%"
+      },
+      "valid_until_tick": 3,
+      "created_at": 1764056894.1308675
+    },
+    {
+      "id": "a3d70de2-127f-434a-8b5d-9b9f11e414cb",
+      "sender": "Hunter-Gatherer Collective",
+      "receivers": [
+        "Tribal Elder"
+      ],
+      "intent": "propose",
+      "content": {
+        "food_contribution": "+15%",
+        "land_access_guarantee": "maintained"
+      },
+      "valid_until_tick": 3,
+      "created_at": 1764056926.1312988
+    },
+    {
+      "id": "9039ac7a-dbd3-42ed-846f-ec7b3b6a3c05",
+      "sender": "Farmer Family Unit",
+      "receivers": [
+        "Tribal Elder"
+      ],
+      "intent": "propose",
+      "content": {
+        "food_contribution": "+10%",
+        "land_usage_rights": "guaranteed"
+      },
+      "valid_until_tick": 3,
+      "created_at": 1764056957.974565
+    },
+    {
+      "id": "d5f321fb-b402-44d1-991d-8876e01b81bf",
+      "sender": "Craftsman",
+      "receivers": [
+        "Tribal Elder"
+      ],
+      "intent": "propose",
+      "content": {
+        "tool_provision": "+10%",
+        "food_exchange_rate": "-5%"
+      },
+      "valid_until_tick": 3,
+      "created_at": 1764056989.8698156
+    },
+    {
+      "id": "c61644fc-3271-48fc-a80f-86108132fbcb",
+      "sender": "Village Watch",
+      "receivers": [
+        "Tribal Elder"
       ],
       "intent": "request",
       "content": {
-        "tithe": "-5%"
-      },
-      "valid_until_tick": 4,
-      "created_at": 1764057010.1443956
-    },
-    {
-      "id": "c5f80149-083e-4a42-b3da-16f2c349b629",
-      "sender": "Shaman/Priest",
-      "receivers": [
-        "Village Elder"
-      ],
-      "intent": "counter",
-      "content": {
-        "tithe": "-2%"
-      },
-      "valid_until_tick": 2,
-      "created_at": 1764057042.0189335
-    },
-    {
-      "id": "98839d92-4fb6-49ea-b2c7-bbe22198de95",
-      "sender": "Hunter-Gatherer Collective",
-      "receivers": [
-        "Village Elder"
-      ],
-      "intent": "propose",
-      "content": {
-        "food_delivery": "+5%"
-      },
-      "valid_until_tick": 2,
-      "created_at": 1764057074.2780328
-    },
-    {
-      "id": "bf4d334d-4902-449b-8eff-548f5b0d1380",
-      "sender": "Farmer Household",
-      "receivers": [
-        "Village Elder"
-      ],
-      "intent": "propose",
-      "content": {
-        "food_surplus_contribution": "+3%"
-      },
-      "valid_until_tick": 2,
-      "created_at": 1764057106.3104901
-    },
-    {
-      "id": "2544a982-fcb8-4f4b-a092-db4d792ec112",
-      "sender": "Craftsmen",
-      "receivers": [
-        "Village Elder"
-      ],
-      "intent": "propose",
-      "content": {
-        "tool_provision": "+2 units",
-        "food_barter": "-5%"
-      },
-      "valid_until_tick": 2,
-      "created_at": 1764057138.2048132
-    },
-    {
-      "id": "b3f6d381-b731-49f0-804d-d5b020a732fa",
-      "sender": "Village Elder",
-      "receivers": [
-        "Shaman/Priest"
-      ],
-      "intent": "accept",
-      "content": {
-        "tithe": "-2%"
-      },
-      "valid_until_tick": 4,
-      "created_at": 1764057357.4906006
-    },
-    {
-      "id": "33209448-8a4a-4f89-bf1a-25ab10d8bcfa",
-      "sender": "Village Elder",
-      "receivers": [
-        "Hunter-Gatherer Collective"
-      ],
-      "intent": "accept",
-      "content": {
-        "food_delivery": "+5%"
-      },
-      "valid_until_tick": 4,
-      "created_at": 1764057357.490605
-    },
-    {
-      "id": "d34a3e0d-0df5-47ac-9bc3-2737d0e772b5",
-      "sender": "Shaman/Priest",
-      "receivers": [
-        "Village Elder"
-      ],
-      "intent": "accept",
-      "content": {
-        "tithe": "-2%"
-      },
-      "valid_until_tick": 4,
-      "created_at": 1764057389.67167
-    },
-    {
-      "id": "97e1d6a1-df1d-4884-84c1-04ee4b7d62e8",
-      "sender": "Hunter-Gatherer Collective",
-      "receivers": [
-        "Village Elder"
-      ],
-      "intent": "accept",
-      "content": {
-        "food_delivery": "+5%"
-      },
-      "valid_until_tick": 4,
-      "created_at": 1764057421.6805909
-    },
-    {
-      "id": "f8b9d394-2a4b-4765-a858-69b863f14c67",
-      "sender": "Farmer Household",
-      "receivers": [
-        "Village Elder"
-      ],
-      "intent": "accept",
-      "content": {
-        "food_surplus_contribution": "+3%"
+        "community_support": "+manpower for patrols",
+        "fortification_enhancement": "+timber"
       },
       "valid_until_tick": 3,
-      "created_at": 1764057453.9313846
+      "created_at": 1764057021.612839
     },
     {
-      "id": "e97f5038-52ad-4ec9-8d08-1490e5f57d94",
-      "sender": "Craftsmen",
+      "id": "d5eeae4a-3139-471e-ab54-c44082ce327a",
+      "sender": "Tribal Elder",
       "receivers": [
-        "Village Elder"
+        "Village Watch"
+      ],
+      "intent": "propose",
+      "content": {
+        "community_support": "+manpower for patrols",
+        "fortification_enhancement": "+timber",
+        "manpower_allocation": "-2%"
+      },
+      "valid_until_tick": 4,
+      "created_at": 1764057274.9011188
+    },
+    {
+      "id": "701ba0c5-bc61-45ec-bc22-0393322e5cd9",
+      "sender": "Tribal Elder",
+      "receivers": [
+        "Farmer Family Unit"
       ],
       "intent": "accept",
       "content": {
-        "tool_provision": "+2 units",
-        "food_barter": "-5%"
+        "food_contribution": "+10%",
+        "land_usage_rights": "guaranteed"
+      },
+      "valid_until_tick": 5,
+      "created_at": 1764057274.9011235
+    },
+    {
+      "id": "1776b254-5a40-4caf-82a3-05a06070a235",
+      "sender": "Shaman/Priest",
+      "receivers": [
+        "Tribal Elder"
+      ],
+      "intent": "accept",
+      "content": {
+        "tithe_support": "+5%"
       },
       "valid_until_tick": 4,
-      "created_at": 1764057485.8144934
+      "created_at": 1764057306.921004
+    },
+    {
+      "id": "feb6b674-0788-48f9-8918-5c77d19dc9d7",
+      "sender": "Hunter-Gatherer Collective",
+      "receivers": [
+        "Tribal Elder"
+      ],
+      "intent": "accept",
+      "content": {
+        "food_contribution": "+15%",
+        "land_access_guarantee": "maintained"
+      },
+      "valid_until_tick": 4,
+      "created_at": 1764057339.2267654
+    },
+    {
+      "id": "b5f904b5-9a7d-40cd-a2b2-9c090854191b",
+      "sender": "Farmer Family Unit",
+      "receivers": [
+        "Tribal Elder"
+      ],
+      "intent": "accept",
+      "content": {
+        "food_contribution": "+10%",
+        "land_usage_rights": "guaranteed"
+      },
+      "valid_until_tick": 5,
+      "created_at": 1764057372.3473737
+    },
+    {
+      "id": "93c975e4-8618-4075-91ec-648076855531",
+      "sender": "Craftsman",
+      "receivers": [
+        "Tribal Elder"
+      ],
+      "intent": "accept",
+      "content": {
+        "tool_provision": "+10%",
+        "food_exchange_rate": "-5%"
+      },
+      "valid_until_tick": 5,
+      "created_at": 1764057404.523993
+    },
+    {
+      "id": "9e7fe7fd-9909-47b1-b58e-d899ee0e8eaf",
+      "sender": "Village Watch",
+      "receivers": [
+        "Tribal Elder"
+      ],
+      "intent": "accept",
+      "content": {
+        "community_support": "+manpower for patrols",
+        "fortification_enhancement": "+timber",
+        "manpower_allocation": "-2%"
+      },
+      "valid_until_tick": 3,
+      "created_at": 1764057436.702112
     }
   ]
 }

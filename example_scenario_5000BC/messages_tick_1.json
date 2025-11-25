@@ -1,35 +1,36 @@
 {
   "inboxes": {
-    "Village Elder": [],
+    "Tribal Elder": [],
     "Shaman/Priest": [
       {
-        "id": "da72dc57-ade2-4104-aaff-6044c840ba3b",
-        "sender": "Village Elder",
+        "id": "25bf90c9-1da6-4889-b85f-c3b52a0beb98",
+        "sender": "Tribal Elder",
         "receivers": [
           "Shaman/Priest"
         ],
-        "intent": "request",
+        "intent": "propose",
         "content": {
-          "tithe": "-5%"
+          "tithe_support": "+5%"
         },
-        "valid_until_tick": 4,
-        "created_at": 1764057010.1443956
+        "valid_until_tick": 3,
+        "created_at": 1764056862.4075072
       }
     ],
     "Hunter-Gatherer Collective": [],
-    "Farmer Household": [],
-    "Craftsmen": []
+    "Farmer Family Unit": [],
+    "Craftsman": [],
+    "Village Watch": []
   },
   "outboxes": {
-    "Village Elder": [
+    "Tribal Elder": [
       {
-        "sender": "Village Elder",
+        "sender": "Tribal Elder",
         "receivers": [
           "Shaman/Priest"
         ],
-        "intent": "request",
+        "intent": "propose",
         "content": {
-          "tithe": "-5%"
+          "tithe_support": "+5%"
         },
         "valid_until_tick": 2
       }
@@ -38,11 +39,11 @@
       {
         "sender": "Shaman/Priest",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
-        "intent": "counter",
+        "intent": "accept",
         "content": {
-          "tithe": "-2%"
+          "tithe_support": "+5%"
         },
         "valid_until_tick": 3
       }
@@ -51,38 +52,54 @@
       {
         "sender": "Hunter-Gatherer Collective",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
         "intent": "propose",
         "content": {
-          "food_delivery": "+5%"
+          "food_contribution": "+15%",
+          "land_access_guarantee": "maintained"
         },
         "valid_until_tick": 3
       }
     ],
-    "Farmer Household": [
+    "Farmer Family Unit": [
       {
-        "sender": "Farmer Household",
+        "sender": "Farmer Family Unit",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
         "intent": "propose",
         "content": {
-          "food_surplus_contribution": "+3%"
+          "food_contribution": "+10%",
+          "land_usage_rights": "guaranteed"
         },
         "valid_until_tick": 3
       }
     ],
-    "Craftsmen": [
+    "Craftsman": [
       {
-        "sender": "Craftsmen",
+        "sender": "Craftsman",
         "receivers": [
-          "Village Elder"
+          "Tribal Elder"
         ],
         "intent": "propose",
         "content": {
-          "tool_provision": "+2 units",
-          "food_barter": "-5%"
+          "tool_provision": "+10%",
+          "food_exchange_rate": "-5%"
+        },
+        "valid_until_tick": 3
+      }
+    ],
+    "Village Watch": [
+      {
+        "sender": "Village Watch",
+        "receivers": [
+          "Tribal Elder"
+        ],
+        "intent": "request",
+        "content": {
+          "community_support": "+manpower for patrols",
+          "fortification_enhancement": "+timber"
         },
         "valid_until_tick": 3
       }
@@ -90,70 +107,86 @@
   },
   "all_messages_visible": [
     {
-      "id": "da72dc57-ade2-4104-aaff-6044c840ba3b",
-      "sender": "Village Elder",
+      "id": "25bf90c9-1da6-4889-b85f-c3b52a0beb98",
+      "sender": "Tribal Elder",
       "receivers": [
         "Shaman/Priest"
       ],
-      "intent": "request",
+      "intent": "propose",
       "content": {
-        "tithe": "-5%"
+        "tithe_support": "+5%"
       },
-      "valid_until_tick": 4,
-      "created_at": 1764057010.1443956
+      "valid_until_tick": 3,
+      "created_at": 1764056862.4075072
     },
     {
-      "id": "c5f80149-083e-4a42-b3da-16f2c349b629",
+      "id": "29e1c836-8e93-4e09-9204-769f2e1121a2",
       "sender": "Shaman/Priest",
       "receivers": [
-        "Village Elder"
+        "Tribal Elder"
       ],
-      "intent": "counter",
+      "intent": "accept",
       "content": {
-        "tithe": "-2%"
+        "tithe_support": "+5%"
       },
-      "valid_until_tick": 2,
-      "created_at": 1764057042.0189335
+      "valid_until_tick": 3,
+      "created_at": 1764056894.1308675
     },
     {
-      "id": "98839d92-4fb6-49ea-b2c7-bbe22198de95",
+      "id": "a3d70de2-127f-434a-8b5d-9b9f11e414cb",
       "sender": "Hunter-Gatherer Collective",
       "receivers": [
-        "Village Elder"
+        "Tribal Elder"
       ],
       "intent": "propose",
       "content": {
-        "food_delivery": "+5%"
+        "food_contribution": "+15%",
+        "land_access_guarantee": "maintained"
       },
-      "valid_until_tick": 2,
-      "created_at": 1764057074.2780328
+      "valid_until_tick": 3,
+      "created_at": 1764056926.1312988
     },
     {
-      "id": "bf4d334d-4902-449b-8eff-548f5b0d1380",
-      "sender": "Farmer Household",
+      "id": "9039ac7a-dbd3-42ed-846f-ec7b3b6a3c05",
+      "sender": "Farmer Family Unit",
       "receivers": [
-        "Village Elder"
+        "Tribal Elder"
       ],
       "intent": "propose",
       "content": {
-        "food_surplus_contribution": "+3%"
+        "food_contribution": "+10%",
+        "land_usage_rights": "guaranteed"
       },
-      "valid_until_tick": 2,
-      "created_at": 1764057106.3104901
+      "valid_until_tick": 3,
+      "created_at": 1764056957.974565
     },
     {
-      "id": "2544a982-fcb8-4f4b-a092-db4d792ec112",
-      "sender": "Craftsmen",
+      "id": "d5f321fb-b402-44d1-991d-8876e01b81bf",
+      "sender": "Craftsman",
       "receivers": [
-        "Village Elder"
+        "Tribal Elder"
       ],
       "intent": "propose",
       "content": {
-        "tool_provision": "+2 units",
-        "food_barter": "-5%"
+        "tool_provision": "+10%",
+        "food_exchange_rate": "-5%"
       },
-      "valid_until_tick": 2,
-      "created_at": 1764057138.2048132
+      "valid_until_tick": 3,
+      "created_at": 1764056989.8698156
+    },
+    {
+      "id": "c61644fc-3271-48fc-a80f-86108132fbcb",
+      "sender": "Village Watch",
+      "receivers": [
+        "Tribal Elder"
+      ],
+      "intent": "request",
+      "content": {
+        "community_support": "+manpower for patrols",
+        "fortification_enhancement": "+timber"
+      },
+      "valid_until_tick": 3,
+      "created_at": 1764057021.612839
     }
   ]
 }

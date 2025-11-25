@@ -1,150 +1,158 @@
 {
   "accepted": [
     {
-      "by": "Village Elder",
+      "by": "Tribal Elder",
       "partners": [
         "Shaman/Priest"
       ],
       "terms": {
-        "tithe": "-2%"
+        "tithe_support": "+5%"
       }
     },
     {
-      "by": "Village Elder",
+      "by": "Farmer Family Unit",
       "partners": [
-        "Hunter-Gatherer Collective"
+        "Tribal Elder"
       ],
       "terms": {
-        "food_delivery": "+5%"
-      }
-    },
-    {
-      "by": "Shaman/Priest",
-      "partners": [
-        "Village Elder"
-      ],
-      "terms": {
-        "tithe": "-2%"
+        "food_contribution": "+10%",
+        "land_usage_rights": "guaranteed"
       }
     },
     {
       "by": "Hunter-Gatherer Collective",
       "partners": [
-        "Village Elder"
+        "Tribal Elder"
       ],
       "terms": {
-        "food_delivery": "+5%"
+        "food_contribution": "+15%",
+        "land_access_guarantee": "maintained"
       }
     },
     {
-      "by": "Farmer Household",
+      "by": "Craftsman",
       "partners": [
-        "Village Elder"
+        "Tribal Elder"
       ],
       "terms": {
-        "food_surplus_contribution": "+3%"
+        "tool_provision": "+10%",
+        "food_exchange_rate": "-5%"
       }
     },
     {
-      "by": "Craftsmen",
+      "by": "Tribal Elder",
       "partners": [
-        "Village Elder"
+        "Village Watch"
       ],
       "terms": {
-        "tool_provision": "+2 units",
-        "food_barter": "-5%"
+        "community_support": "+manpower for patrols",
+        "fortification_enhancement": "+timber",
+        "manpower_allocation": "-2%"
+      }
+    },
+    {
+      "by": "Shaman/Priest",
+      "partners": [
+        "Tribal Elder"
+      ],
+      "terms": {
+        "tithe_support": "+5%"
+      }
+    },
+    {
+      "by": "Village Watch",
+      "partners": [
+        "Tribal Elder"
+      ],
+      "terms": {
+        "community_support": "+manpower for patrols",
+        "fortification_enhancement": "+timber",
+        "manpower_allocation": "-2%"
       }
     }
   ],
   "coordinated_actions": [
     {
-      "by": "Village Elder",
+      "by": "Tribal Elder",
       "partners": [
-        "Shaman/Priest",
-        "Hunter-Gatherer Collective",
-        "Farmer Household",
-        "Craftsmen"
+        "Shaman/Priest"
       ],
-      "action_name": "Community Resource Consolidation and Distribution",
-      "goal": "Consolidate all agreed contributions and distribute resources to maintain community well-being and social harmony.",
-      "operational_plan": "The Village Elder will receive the tithe adjustment, food delivery, surplus contribution, and tool provision in exchange for food barter. Subsequently, these resources will be managed and distributed to the community, prioritizing fairness to preserve social harmony.",
+      "action_name": "Increased Tithe Collection and Spiritual Support",
+      "goal": "Enhance community religious devotion and cohesion by allocating more resources to spiritual functions.",
+      "operational_plan": "The Tribal Elder will oversee an adjustment to tithe collection, resulting in a 5% increase. The Shaman/Priest will ensure these resources are used for community rituals and spiritual guidance, reinforcing religious influence.",
       "expected_effects": {
-        "Resources.food": "-6%",
-        "Economy.tithe_rate": "-0.02",
-        "Economy.trade_intensity": "+0.02",
-        "Society.morale": "+0.08",
-        "Resources.manpower": "-4%",
-        "State.stability": "+0.01"
+        "Economy.tithe_rate": "+0.05",
+        "Society.religious_influence": "+0.05"
       },
-      "risk_notes": "Significant manpower required for collection and distribution. Depletion of food stores necessitates careful management. Potential for social friction if distribution is perceived as inequitable.",
-      "justification": "This action aggregates all finalized agreements to efficiently manage community resources and maintain social cohesion. It directly supports the Village Elder's mandate and incentives by ensuring resources are collected and distributed effectively."
+      "risk_notes": "Potential for slight reduction in immediate secular resources due to increased tithe.",
+      "justification": "The accepted proposal aims to strengthen societal cohesion and religious influence through increased tithe support."
     },
     {
-      "by": "Shaman/Priest",
+      "by": "Farmer Family Unit",
       "partners": [
-        "Village Elder"
+        "Tribal Elder"
       ],
-      "action_name": "Finalize Tithe Adjustment and Spiritual Duties",
-      "goal": "Confirm the tithe adjustment and continue spiritual guidance to ensure community spiritual health.",
-      "operational_plan": "Confirm the finalized -2% tithe adjustment with the Village Elder. Continue to perform religious rituals and provide spiritual guidance, aiming to maximize divine favor and influence.",
+      "action_name": "Increased Food Contribution and Land Use Assurance",
+      "goal": "Maximize personal food stores and yield while contributing more to the community, secured by guaranteed land usage rights.",
+      "operational_plan": "The Farmer Family Unit will increase its food contribution by 10% to the community. In return, the Tribal Elder guarantees their land usage rights, ensuring family survival and maximizing yield.",
       "expected_effects": {
-        "Economy.tithe_rate": "-0.02",
-        "Society.religious_influence": "+0.05",
-        "Society.morale": "+0.02"
+        "Resources.food": "+10%",
+        "Economy.rents_rate": "+0.01",
+        "Society.inequality": "-0.01",
+        "Resources.manpower": "-1%"
       },
-      "risk_notes": "Reduced tithe revenue requires efficient allocation of resources for religious activities.",
-      "justification": "This action confirms the agreed-upon tithe reduction and ensures the Shaman/Priest's ongoing spiritual duties, aligning with incentives to maintain influence and community spiritual health."
+      "risk_notes": "Increased labor demand on family units, potential minor increase in rents due to higher yields.",
+      "justification": "The accepted terms align with the Farmer Family Unit's incentives to maximize yield and ensure survival, while contributing to community food security."
     },
     {
       "by": "Hunter-Gatherer Collective",
       "partners": [
-        "Village Elder"
+        "Tribal Elder"
       ],
-      "action_name": "Deliver Food Contribution and Continue Foraging",
-      "goal": "Fulfill food delivery commitment and continue supplementary food acquisition.",
-      "operational_plan": "Deliver the agreed 5% food contribution to the Village Elder. Continue hunting and foraging activities to maximize individual food intake and minimize personal effort, avoiding danger.",
+      "action_name": "Enhanced Food Contribution with Land Access Guarantee",
+      "goal": "Maximize resource acquisition and contribute significantly to community food stores, with guaranteed access to foraging grounds.",
+      "operational_plan": "The Hunter-Gatherer Collective will increase its food contribution by 15%. The Tribal Elder guarantees continued access to hunting and gathering lands, ensuring collective resource acquisition.",
       "expected_effects": {
-        "Resources.food": "+4%",
-        "Resources.manpower": "-3%",
-        "Society.morale": "+0.02"
-      },
-      "risk_notes": "Manpower expenditure on delivery and continued foraging increases risk and reduces immediate availability for other tasks.",
-      "justification": "This action fulfills the commitment to the Village Elder and continues the Collective's primary mandate, balancing community contribution with individual incentives."
-    },
-    {
-      "by": "Farmer Household",
-      "partners": [
-        "Village Elder"
-      ],
-      "action_name": "Contribute Surplus and Maintain Cultivation",
-      "goal": "Contribute surplus food and continue intensive cultivation for survival and future production.",
-      "operational_plan": "Deliver the agreed 3% food surplus contribution to the Village Elder. Continue intensive cultivation and livestock tending to maximize food production and secure family survival.",
-      "expected_effects": {
-        "Resources.food": "+5%",
-        "Economy.productivity": "+0.03",
+        "Resources.food": "+15%",
         "Resources.manpower": "-4%",
-        "Society.morale": "+0.01"
+        "Environment.harvest_quality": "+0.02"
       },
-      "risk_notes": "Reduced manpower due to intensive farming. Potential for unforeseen environmental impacts on future yields.",
-      "justification": "This action formalizes the surplus contribution and continues the household's focus on maximizing food production, directly supporting survival incentives."
+      "risk_notes": "Temporary reduction in available manpower for other community tasks; potential for over-exploitation of foraging grounds if not managed.",
+      "justification": "The accepted agreement directly supports the Hunter-Gatherer Collective's incentive to maximize resource acquisition while contributing to community food stores."
     },
     {
-      "by": "Craftsmen",
+      "by": "Craftsman",
       "partners": [
-        "Village Elder"
+        "Tribal Elder"
       ],
-      "action_name": "Tool Delivery and Barter for Necessities",
-      "goal": "Deliver agreed tools and barter for essential food resources.",
-      "operational_plan": "Deliver the agreed 2 units of tools to the Village Elder and receive the agreed food barter. Continue producing tools and gathering resources to maximize creation of useful items and trade for necessities.",
+      "action_name": "Increased Tool Production and Favorable Food Exchange",
+      "goal": "Produce more essential tools and trade them for food at a better rate, thereby improving craft skills and acquiring necessities.",
+      "operational_plan": "The Craftsman will increase tool provision by 10%. The Tribal Elder agrees to a 5% reduction in the food exchange rate for these tools, facilitating better trade for necessities.",
       "expected_effects": {
-        "Infrastructure.market_access": "+0.02",
-        "Resources.food": "-2%",
-        "Economy.productivity": "+0.02",
-        "Resources.manpower": "-3%",
-        "Resources.timber": "+2%"
+        "Economy.productivity": "+0.03",
+        "Resources.food": "-3%",
+        "Resources.timber": "-2%",
+        "Economy.price_level": "+0.01"
       },
-      "risk_notes": "Consumption of food for barter and manpower for delivery and production. Potential for timber depletion if not managed.",
-      "justification": "This action fulfills the agreement with the Village Elder, providing tools and securing food. It supports the craftsman's incentives to create useful items and trade for necessities, enhancing market access and productivity."
+      "risk_notes": "Increased demand for timber; reduced food availability for other community needs due to the exchange rate.",
+      "justification": "The accepted terms incentivize improved craft skills and better trade for necessities, aligning with the Craftsman's core incentives."
+    },
+    {
+      "by": "Tribal Elder",
+      "partners": [
+        "Village Watch"
+      ],
+      "action_name": "Strengthened Community Security and Resource Allocation",
+      "goal": "Enhance community safety through increased patrols and fortifications, supported by a slight reallocation of manpower and provision of timber.",
+      "operational_plan": "The Tribal Elder agrees to provide manpower support for Village Watch patrols and allocate timber for fortification enhancement. This is balanced by a 2% reallocation of overall manpower.",
+      "expected_effects": {
+        "State.borders_threat": "-0.04",
+        "Infrastructure.fortifications": "+0.03",
+        "Resources.manpower": "-2%",
+        "State.stability": "+0.02"
+      },
+      "risk_notes": "A slight reduction in available manpower for other community tasks; potential for increased resource strain due to fortification efforts.",
+      "justification": "This action addresses the Village Watch's request to bolster security and aligns with the Tribal Elder's mandate to maintain community survival and harmony."
     }
   ]
 }

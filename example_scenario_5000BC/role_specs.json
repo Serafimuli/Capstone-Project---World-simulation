@@ -1,61 +1,65 @@
 {
   "roles": [
     {
-      "role_name": "Village Elder",
-      "mandate": "Guide community decisions, resolve disputes, and maintain traditions.",
-      "incentives": "Maximize community well-being, preserve social harmony, gain respect.",
+      "role_name": "Tribal Elder",
+      "mandate": "Maintain community cohesion, resolve disputes, and guide resource allocation based on tradition and wisdom.",
+      "incentives": "Maximize community survival and harmony, avoid internal strife.",
       "observables": [
         "Society.population",
         "Society.morale",
-        "Society.inequality",
         "Environment.harvest_quality",
         "Resources.food"
       ]
     },
     {
       "role_name": "Shaman/Priest",
-      "mandate": "Perform religious rituals, interpret omens, and provide spiritual guidance.",
-      "incentives": "Maximize divine favor, increase personal influence, ensure community's spiritual health.",
+      "mandate": "Perform rituals, interpret divine will, and maintain spiritual well-being of the community.",
+      "incentives": "Maximize societal religious devotion and cohesion, avoid spiritual disfavor.",
       "observables": [
         "Society.religious_influence",
-        "Environment.plague_pressure",
+        "Society.morale",
         "Environment.disaster_risk"
-      ],
-      "notes": "Religious influence is high due to lack of scientific understanding."
+      ]
     },
     {
       "role_name": "Hunter-Gatherer Collective",
-      "mandate": "Provide supplementary food and resources through hunting and foraging.",
-      "incentives": "Maximize individual food intake, minimize personal effort, avoid danger.",
+      "mandate": "Provide supplementary food and resources through hunting and gathering, respecting community land use.",
+      "incentives": "Maximize individual and group resource acquisition, avoid conflict with farmers.",
       "observables": [
         "Resources.food",
-        "Resources.manpower",
         "Environment.harvest_quality",
-        "Environment.disaster_risk"
+        "Resources.manpower"
       ]
     },
     {
-      "role_name": "Farmer Household",
-      "mandate": "Cultivate crops and tend to livestock for subsistence and potential surplus.",
-      "incentives": "Maximize food production, secure own family's survival, avoid crop failure.",
+      "role_name": "Farmer Family Unit",
+      "mandate": "Cultivate land, produce food for sustenance and community contribution.",
+      "incentives": "Maximize personal food stores and yield, ensure family survival.",
       "observables": [
         "Resources.food",
-        "Economy.productivity",
         "Environment.harvest_quality",
-        "Environment.winter_severity"
+        "Economy.rents_rate"
       ]
     },
     {
-      "role_name": "Craftsmen",
-      "mandate": "Produce tools, pottery, and other essential goods for the community.",
-      "incentives": "Maximize creation of useful items, gain recognition for skill, trade for necessities.",
+      "role_name": "Craftsman",
+      "mandate": "Produce essential tools, pottery, and clothing for the community.",
+      "incentives": "Acquire raw materials, trade finished goods for food and other necessities, improve craft skill.",
       "observables": [
         "Resources.timber",
-        "Resources.iron",
-        "Economy.productivity",
-        "Infrastructure.market_access"
-      ],
-      "notes": "Iron is not yet widely available; focus is on stone and bone tools."
+        "Resources.food",
+        "Economy.productivity"
+      ]
+    },
+    {
+      "role_name": "Village Watch",
+      "mandate": "Provide basic security and early warning against external threats and internal disturbances.",
+      "incentives": "Maintain community safety, avoid losses to raiding or theft.",
+      "observables": [
+        "State.borders_threat",
+        "Society.population",
+        "Infrastructure.fortifications"
+      ]
     }
   ]
 }

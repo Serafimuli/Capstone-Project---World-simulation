@@ -1,4 +1,29 @@
 {
-  "accepted": [],
-  "coordinated_actions": []
+  "accepted": [
+    {
+      "by": "Tribal Elder",
+      "partners": [
+        "Shaman/Priest"
+      ],
+      "terms": {
+        "tithe_support": "+5%"
+      }
+    }
+  ],
+  "coordinated_actions": [
+    {
+      "by": "Tribal Elder",
+      "partners": [
+        "Shaman/Priest"
+      ],
+      "action_name": "Increase Tithe Collection",
+      "goal": "Enhance community religious devotion and cohesion by allocating more resources to spiritual functions.",
+      "operational_plan": "The Tribal Elder will oversee an adjustment to tithe collection. The Shaman/Priest will ensure these resources are used for community rituals and spiritual guidance.",
+      "expected_effects": {
+        "Economy.tithe_rate": "+0.05"
+      },
+      "risk_notes": "Potential for reduced immediate resources for secular community needs.",
+      "justification": "The accepted proposal aims to strengthen societal cohesion and religious influence."
+    }
+  ]
 }

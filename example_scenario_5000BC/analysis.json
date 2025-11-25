@@ -1,0 +1,119 @@
+{
+  "metrics": {
+    "resources": {
+      "food_delta_abs": 40576.04,
+      "food_delta_pct": 405.76,
+      "coinage_delta_abs": 0.0,
+      "coinage_delta_pct": 0.0
+    },
+    "society": {
+      "morale_initial": 0.5,
+      "morale_final": 1.0,
+      "morale_delta": 0.5,
+      "inequality_initial": 0.2,
+      "inequality_final": 0.0
+    },
+    "state": {
+      "stability_initial": 0.5,
+      "stability_final": 0.69,
+      "stability_delta": 0.19,
+      "legitimacy_initial": 0.6,
+      "legitimacy_final": 0.6
+    },
+    "economy": {
+      "price_level_initial": 1.0,
+      "price_level_final": 1.0,
+      "price_level_delta": 0.0,
+      "trade_intensity_initial": 0.1,
+      "trade_intensity_final": 0.1,
+      "trade_intensity_delta": 0.0
+    },
+    "risk_flags": {
+      "famine_risk_high": false,
+      "unrest_risk_high": false,
+      "invasion_risk_high": false
+    },
+    "volatility": {
+      "morale_volatility": 0.13,
+      "price_volatility": 0.0
+    },
+    "negotiation": {
+      "messages_total": 34,
+      "propose_count": 9,
+      "accept_count": 9,
+      "commit_count": 9,
+      "accept_rate": 1.0,
+      "commit_rate": 1.0
+    },
+    "coordination": {
+      "agreements_count": 6,
+      "coordinated_actions_count": 6
+    }
+  },
+  "cause_effect_chains": [
+    {
+      "chain": "Increased food contributions from Farmer Family Unit and Hunter-Gatherer Collective → significant increase in Resources.food",
+      "evidence_ticks": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "chain": "Farmer Family Unit's Enhanced Crop Management and Hunter-Gatherer Collective's Intensive Seasonal Foraging → increased Environment.harvest_quality and Resources.food",
+      "evidence_ticks": [
+        3,
+        4
+      ]
+    },
+    {
+      "chain": "Tribal Elder's actions (Community Celebration, Resource Management) → increased Society.morale and reduced Resources.food and Resources.manpower",
+      "evidence_ticks": [
+        3,
+        4
+      ]
+    },
+    {
+      "chain": "Village Watch's Security Enhancements → decreased State.borders_threat, increased Infrastructure.fortifications, and slightly increased Society.morale",
+      "evidence_ticks": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "chain": "Craftsman's Tool and Equipment Enhancement Initiative → increased Economy.productivity, decreased Resources.timber and Resources.food, and increased Economy.price_level",
+      "evidence_ticks": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "chain": "Shaman/Priest's rituals (Blessing of Granaries, Festival of Abundance) → increased Society.religious_influence and Society.morale, decreased Resources.food and Environment.disaster_risk",
+      "evidence_ticks": [
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "conclusions": [
+    "The simulation demonstrated a highly successful period of resource accumulation, driven by exceptionally favorable environmental conditions and effective coordination among societal roles.",
+    "Community morale and religious influence reached peak levels, indicating strong societal cohesion and satisfaction.",
+    "Security was maintained and even enhanced through proactive measures by the Village Watch, despite a slight but managed drain on manpower.",
+    "Craftsmanship saw significant advancements, boosting productivity, though at the cost of timber resources and a slight increase in goods' price level.",
+    "Negotiation and coordination processes were highly effective, with all parties readily accepting and committing to proposals, leading to 100% agreement rates and a high number of coordinated actions.",
+    "Inequality decreased significantly, likely due to the equitable distribution of abundant resources and successful communal efforts."
+  ],
+  "recommendations": [
+    "Consider introducing new external threats or environmental challenges to test the resilience of the highly cohesive society.",
+    "Explore opportunities for resource diversification beyond food and timber, such as introducing iron mining or more complex trade mechanisms.",
+    "Monitor the long-term impact of the Craftsman's resource consumption (timber) and potential price increases to ensure continued economic stability.",
+    "Introduce more complex social dynamics or inter-community interactions to provide new challenges and growth opportunities.",
+    "Evaluate the impact of consistently high morale and religious influence; consider introducing factors that might test these indicators."
+  ]
+}
