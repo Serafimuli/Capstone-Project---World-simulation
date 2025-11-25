@@ -319,40 +319,49 @@ Overall: a virtuous cycle of favourable harvest events and craftsmanship breakth
 | prompts/*.txt | Fillable prompt templates with placeholders |
 
 ## 5. Data Contracts (Selected Keys)
-- world dictionaries have top-level sections: Resources, Society, State, Economy, Infrastructure, Environment.
-- expected_effects: { "Section.var": "+5" | "-2" | "+10%" } → parsed into deltas.
-- Messages: { sender, receivers[], intent, content{}, valid_until_tick }.
-- Events: { name, probability, expected_effects }.
+
+* world dictionaries have top-level sections: Resources, Society, State, Economy, Infrastructure, Environment.
+* expected_effects: { "Section.var": "+5" \| "-2" \| "+10%" } -> parsed into deltas.
+* Messages: { sender, receivers[], intent, content{}, valid_until_tick }.
+* Events: { name, probability, expected_effects }.
 
 ## 6. Rate Limiting
+
 Sleep calls inserted after high-frequency LLM invocations (messaging_round, role_decision). Central throttle can be added in llm_adapter._call_adk. Adjust to provider limits.
 
 ## 7. Setup
 
 ### Prerequisites
-- Python 3.10+
-- Google ADK + Gemini access (API key in environment)
-- pip install -r requirements 
+
+* Python 3.10+
+* Google ADK + Gemini access (API key in environment)
+* `pip install -r requirements`
 
 Example (Windows PowerShell):
-```
+
+```powershell
 python -m venv .venv
 . .venv/Scripts/Activate.ps1
-pip install -r requirements 
+pip install -r requirements
 ```
 
 ### Environment
+
 Create `.env` or set env vars:
-```
+
+```bash
 GEMINI_API_KEY=your_key
 GEMINI_MODEL=gemini-2.5-flash
 ```
 
 ### Run Simulation
-```
+
+```bash
 python -m society_sim.engine.simulate "A future world after an AI revolution" --ticks 5
 ```
-Outputs in runs/<timestamp>/:
-- world_initial.json, world_tick_*.json, world_final.json
-- history.jsonl (chronological events & decisions)
-- analysis.json (final structured summary)
+
+Outputs in `runs/<timestamp>/`:
+
+* world_initial.json, world_tick_*.json, world_final.json
+* history.jsonl (chronological events & decisions)
+* analysis.json (final structured summary)
