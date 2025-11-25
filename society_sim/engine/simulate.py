@@ -194,7 +194,7 @@ def run(user_prompt: str, ticks: int = 8, guardrails: Dict[str, Any] | None = No
 
     # --- Final
     LIO.write_json(run_dir / "world_final.json", world)
-
+    
     if hasattr(llm_adapter, "analyze"):
         from society_sim.engine import analyst
         analysis_payload = analyst.build_payload(run_dir, ticks)
@@ -204,4 +204,4 @@ def run(user_prompt: str, ticks: int = 8, guardrails: Dict[str, Any] | None = No
     return run_dir
 
 if __name__ == "__main__":
-    run("Romania in 1967", ticks=1)
+    run("A world in 5000 BC", ticks=5)

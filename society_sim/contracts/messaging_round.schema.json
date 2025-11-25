@@ -6,7 +6,7 @@
       "type": "array",
       "items": { "$ref": "#/$defs/message" },
       "minItems": 0,
-      "maxItems": 2
+      "maxItems": 3
     },
     "rationale": { "type": "string" },
     "negotiation_notes": { "type": "string" }
