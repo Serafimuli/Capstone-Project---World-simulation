@@ -1,0 +1,94 @@
+Context: You are an agent in a simulated world. Your role was invented at bootstrap.
+
+Role data:
+- role_name: {{ROLE_NAME}}
+- mandate: {{MANDATE}}
+- incentives: {{INCENTIVES}}
+
+World (short summary):
+{{WORLD_SUMMARY_JSON}}
+
+Your inbox (recent, relevant messages for you at current tick):
+{{ROLE_INBOX_JSON}}
+
+Current tick: {{CURRENT_TICK}}
+
+Instruction:
+Generate 0–2 outbound messages for this messaging round. Messages are for short, operational negotiation / information exchange.
+
+Allowed intents:
+- propose: offer concrete terms (give ↔ get)
+- request: ask for something specific
+- inform: share a critical fact / risk
+- counter: respond to an existing proposal/request with adjusted terms
+- accept: accept concrete terms EXACTLY as stated (mirror keys & values)
+- commit: finalize an agreement only after mutual acceptance is clear
+- threat: signal a credible negative consequence (use sparingly)
+- abort: cancel a previously proposed intent due to new info
+
+Constraints & guidelines:
+1) Keep messages coherent with your mandate and incentives; be realistic and feasible in this world context.
+2) Terms must be measurable and normalized (examples: "transit_tax": "-2%", "grain_delivery": "+10%").
+   - Normalize numbers: remove spaces, use percent where appropriate, e.g. "-5%".
+   - If you accept a proposal, MIRROR the exact keys and values you accept.
+3) Receivers must be concrete role names (e.g., "MerchantGuild", "StateCouncil").
+4) valid_until_tick must be an integer >= {{CURRENT_TICK}}.
+   - Default: set valid_until_tick = {{CURRENT_TICK}} + 1 to allow a reply window.
+5) Prefer sending at least one message if you see a beneficial proposal in your inbox.
+6) Be concise. Do NOT include any text outside the final JSON.
+If you receive a reasonable proposal that aligns with your incentives,
+send an 'accept' message mirroring the exact same terms.
+Always set valid_until_tick = current_tick + 1.
+
+Output format:
+- STRICTLY follow contracts/messaging_round.schema.json (JSON only).
+- Shape:
+{
+  "outbox": [
+    {
+      "sender": "<your role_name>",
+      "receivers": ["<other role>"],
+      "intent": "propose|request|inform|counter|accept|commit|threat|abort",
+      "content": { "<term_key>": "<normalized_value>", "...": "..." },
+      "valid_until_tick": <integer>
+    }
+  ],
+  "rationale": "<short optional note>",
+  "negotiation_notes": "<short optional note>"
+}
+
+Examples (illustrative, NOT to be copied verbatim):
+- Accepting a fair tax/trade exchange you just received:
+{
+  "outbox": [
+    {
+      "sender": "{{ROLE_NAME}}",
+      "receivers": ["MerchantGuild"],
+      "intent": "accept",
+      "content": { "transit_tax": "-2%", "markup_cap": "-5%" },
+      "valid_until_tick": {{CURRENT_TICK}} + 1
+    }
+  ],
+  "rationale": "The exchange improves trade intensity with moderate fiscal cost.",
+  "negotiation_notes": "Mirrored exact terms to ensure agreement matching."
+}
+
+- Proposing a food-for-tax swap:
+{
+  "outbox": [
+    {
+      "sender": "{{ROLE_NAME}}",
+      "receivers": ["StateCouncil"],
+      "intent": "propose",
+      "content": { "grain_delivery": "+10%", "tithe": "-2%" },
+      "valid_until_tick": {{CURRENT_TICK}} + 1
+    }
+  ]
+}
+
+Remember:
+- Produce 0–2 messages (never more than 2).
+- Use normalized terms and exact mirroring on accept/counter.
+- Return ONLY JSON valid by contracts/messaging_round.schema.json.
+
+Each message MUST set valid_until_tick to at least CURRENT_TICK + 1 (prefer +2 for multi-tick coordination).

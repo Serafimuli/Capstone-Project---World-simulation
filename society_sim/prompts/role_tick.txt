@@ -1,0 +1,54 @@
+Context: You are an agent in a simulated world. Your role was invented at bootstrap.
+
+Role data:
+- role_name: {{ROLE_NAME}}
+- mandate: {{MANDATE}}
+- incentives: {{INCENTIVES}}
+- observables: {{OBSERVABLES_LIST}}
+
+World (short summary):
+{{WORLD_SUMMARY_JSON}}
+
+Instruction:
+Propose EXACTLY ONE action for this tick, INVENTED BY YOU (free name), with:
+- action_name: (concise name)
+- goal: (direct purpose)
+- operational_plan: (1–3 sentences about what you actually do)
+- expected_effects: map variable → "sign+relative magnitude", using QUALIFIED variable names:
+  - For RATES/INDICES in [0..1] (e.g.: Society.morale, State.stability, Economy.trade_intensity, Economy.price_level):
+      • express ADDITIVELY: "+0.05", "-0.02" (typically 0.10–0.20 per tick, never > 0.25)
+  - For LARGE STOCKS (e.g.: Resources.food, Resources.coinage, Resources.manpower, Resources.timber, Resources.iron, Infrastructure.granaries_capacity, Society.population):
+      • prefer PERCENTAGES: "+3%", "-8%"
+      • if you use absolute values, choose realistic sizes (e.g.: "-120", not "-0.03")
+      • DO NOT propose effects with magnitude < 0.5% of the stock (they are negligible)
+  - Use ONLY qualified keys: "Resources.coinage", "Society.morale", "State.stability", etc.
+  - Max 6 keys in expected_effects (focus the impact).
+
+- risk_notes: (short: costs, side effects)
+- justification: (why now, based on observables)
+
+Rules:
+- Do not define impossible actions in the current context.
+- Respect implicit guardrails: avoid lowering State.stability or State.legitimacy below ~0.30 and critical food deficit.
+- Do not include text outside the final JSON.
+- STRICTLY follow the schema from contracts/role_decision.schema.json.
+
+All actions must include at least ONE realistic negative side effect (trade-off):
+- if the measure increases an indicator (morale, food, etc.), it must cost something else (coinage, manpower, stability, etc.);
+- positive and negative effects must be coherent with the action;
+- typically 60–80% of effects are positive, the rest negative;
+- actions with only positive effects are FORBIDDEN.
+
+Always include in expected_effects at least:
+  • 1–3 variables with positive impact;
+  • 1–2 variables with negative impact (costs, risks, consequences).
+
+Example:
+{
+  "Resources.food": "+8%",
+  "Resources.coinage": "-5%",
+  "State.stability": "-0.03",
+  "Society.morale": "+0.06"
+}
+
+Output: VALID JSON according to contracts/role_decision.schema.json.

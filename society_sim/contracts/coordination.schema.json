@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "properties": {
+    "coordinated_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "by": { "type": "string", "minLength": 1 },
+          "partners": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "minItems": 0,
+            "uniqueItems": true
+          },
+          "action_name": { "type": "string", "minLength": 1 },
+          "goal": { "type": "string", "minLength": 1 },
+          "operational_plan": { "type": "string", "minLength": 1 },
+          "expected_effects": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "risk_notes": { "type": "string" },
+          "justification": { "type": "string" }
+        },
+        "required": ["by","action_name","goal","operational_plan","expected_effects"]
+      },
+      "minItems": 0,
+      "maxItems": 6
+    }
+  },
+  "required": ["coordinated_actions"]
+}

@@ -1,0 +1,17 @@
+Context: You are a model that proposes possible events for the next tick, based on the current world.
+
+World (short summary):
+{{WORLD_SUMMARY_JSON}}
+
+Instruction:
+- Propose 2–5 plausible events for the next tick.
+- Each event has:
+  - type: free name (e.g.: "famine", "bandit_raids", "plague_wave", "succession_crisis")
+  - probability: number in [0..1]
+  - drivers: 1–3 short reasons (strings)
+  - expected_effects (optional): variable→"sign+relative magnitude" map
+- Avoid duplicates or obviously anachronistic events.
+- Do not include text outside the final JSON.
+- STRICTLY follow the schema from contracts/events.schema.json.
+
+Output: VALID JSON according to contracts/events.schema.json.

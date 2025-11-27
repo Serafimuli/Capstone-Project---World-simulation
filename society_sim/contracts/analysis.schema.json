@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Simulation Analysis",
+  "type": "object",
+  "properties": {
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "resources": {
+          "type": "object",
+          "properties": {
+            "food_delta_abs": { "type": "number" },
+            "food_delta_pct": { "type": "number" },
+            "coinage_delta_abs": { "type": "number" },
+            "coinage_delta_pct": { "type": "number" }
+          },
+          "required": ["food_delta_abs", "food_delta_pct", "coinage_delta_abs", "coinage_delta_pct"],
+          "additionalProperties": false
+        },
+        "society": {
+          "type": "object",
+          "properties": {
+            "morale_initial": { "type": "number" },
+            "morale_final": { "type": "number" },
+            "morale_delta": { "type": "number" },
+            "inequality_initial": { "type": "number" },
+            "inequality_final": { "type": "number" }
+          },
+          "required": ["morale_initial", "morale_final", "morale_delta", "inequality_initial", "inequality_final"],
+          "additionalProperties": false
+        },
+        "state": {
+          "type": "object",
+          "properties": {
+            "stability_initial": { "type": "number" },
+            "stability_final": { "type": "number" },
+            "stability_delta": { "type": "number" },
+            "legitimacy_initial": { "type": "number" },
+            "legitimacy_final": { "type": "number" }
+          },
+          "required": ["stability_initial", "stability_final", "stability_delta", "legitimacy_initial", "legitimacy_final"],
+          "additionalProperties": false
+        },
+        "economy": {
+          "type": "object",
+          "properties": {
+            "price_level_initial": { "type": "number" },
+            "price_level_final": { "type": "number" },
+            "price_level_delta": { "type": "number" },
+            "trade_intensity_initial": { "type": "number" },
+            "trade_intensity_final": { "type": "number" },
+            "trade_intensity_delta": { "type": "number" }
+          },
+          "required": [
+            "price_level_initial",
+            "price_level_final",
+            "price_level_delta",
+            "trade_intensity_initial",
+            "trade_intensity_final",
+            "trade_intensity_delta"
+          ],
+          "additionalProperties": false
+        },
+        "risk_flags": {
+          "type": "object",
+          "properties": {
+            "famine_risk_high": { "type": "boolean" },
+            "unrest_risk_high": { "type": "boolean" },
+            "invasion_risk_high": { "type": "boolean" }
+          },
+          "required": ["famine_risk_high", "unrest_risk_high", "invasion_risk_high"],
+          "additionalProperties": false
+        },
+        "volatility": {
+          "type": "object",
+          "properties": {
+            "morale_volatility": { "type": "number", "minimum": 0, "maximum": 1 },
+            "price_volatility": { "type": "number", "minimum": 0 }
+          },
+          "required": ["morale_volatility", "price_volatility"],
+          "additionalProperties": false
+        },
+        "negotiation": {
+          "type": "object",
+          "properties": {
+            "messages_total": { "type": "integer", "minimum": 0 },
+            "propose_count": { "type": "integer", "minimum": 0 },
+            "accept_count": { "type": "integer", "minimum": 0 },
+            "commit_count": { "type": "integer", "minimum": 0 },
+            "accept_rate": { "type": "number", "minimum": 0 },
+            "commit_rate": { "type": "number", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "coordination": {
+          "type": "object",
+          "properties": {
+            "agreements_count": { "type": "integer", "minimum": 0 },
+            "coordinated_actions_count": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": ["resources", "society", "state", "economy", "risk_flags", "volatility"],
+      "additionalProperties": false
+    },
+    "cause_effect_chains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "chain": { "type": "string", "minLength": 1 },
+          "evidence_ticks": {
+            "type": "array",
+            "items": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "required": ["chain", "evidence_ticks"],
+        "additionalProperties": false
+      },
+      "minItems": 3
+    },
+    "conclusions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 3,
+      "maxItems": 6
+    },
+    "recommendations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 2,
+      "maxItems": 5
+    }
+  },
+  "required": ["metrics", "cause_effect_chains", "conclusions", "recommendations"],
+  "additionalProperties": false
+}

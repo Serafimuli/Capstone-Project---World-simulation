@@ -1,0 +1,47 @@
+{
+  "Resources": {
+    "food": 11246.4497376,
+    "coinage": 0,
+    "timber": 4837.875,
+    "iron": 0,
+    "manpower": 4282.6
+  },
+  "Society": {
+    "population": 4950.0,
+    "morale": 0.6100000000000001,
+    "inequality": 0.19,
+    "religious_influence": 0.7,
+    "urbanization": 0.1,
+    "education": 0.05
+  },
+  "Economy": {
+    "tax_rate": 0,
+    "rents_rate": 0.12000000000000001,
+    "tithe_rate": 0.25,
+    "trade_intensity": 0.1,
+    "price_level": 1.0,
+    "productivity": 0.3
+  },
+  "State": {
+    "laws": [
+      "Tribal customs",
+      "Community elders' decisions"
+    ],
+    "legitimacy": 0.6,
+    "stability": 0.52,
+    "borders_threat": 0.25,
+    "corruption": 0.05
+  },
+  "Infrastructure": {
+    "roads_quality": 0.1,
+    "granaries_capacity": 2000,
+    "fortifications": 0.13,
+    "market_access": 0.2
+  },
+  "Environment": {
+    "harvest_quality": 0.72,
+    "plague_pressure": 0.2,
+    "winter_severity": 0.7,
+    "disaster_risk": 0.25
+  }
+}

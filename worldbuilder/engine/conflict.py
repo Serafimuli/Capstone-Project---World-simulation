@@ -1,1 +1,0 @@
-# Military logic, war outcomes
