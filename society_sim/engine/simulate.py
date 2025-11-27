@@ -204,4 +204,4 @@ def run(user_prompt: str, ticks: int = 8, guardrails: Dict[str, Any] | None = No
     return run_dir
 
 if __name__ == "__main__":
-    run("World before 5000 BC", ticks=5)
+    run("World before 5000 BC", ticks=4)
